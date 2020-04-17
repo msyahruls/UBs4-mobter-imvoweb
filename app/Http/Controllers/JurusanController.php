@@ -36,28 +36,16 @@ class JurusanController extends Controller
      */
     public function store(Request $request)
     {
-        $jurusan_nama = $request->input('jurusan_nama');
-
-        $data = new \App\Jurusan();
-        $data->jurusan_nama = $jurusan_nama;
-
-        if($data->save()){
-            $res['message'] = "Success!";
-            $res['value'] = "$data";
-            return response($res);
-        }
-
-        // $request->validate([
-        //     'jurusan_nama' => 'required',
-        // ]);
-
-        // // $data=Jurusan::create($request->all());
-        // if($data=Jurusan::create($request->all())){
-        //     $res['message'] = "Success!";
-        //     $res['value'] = "$data";
-        //     return response()->json($res);
-        // }
-        // return response()->json('successfully');
+        $request->validate([
+            'jurusan_nama' => 'required',
+        ]);
+  
+        $res = Jurusan::create($request->all());
+        // if (Auth::user()){
+        //     return redirect()->route('jurusan.index')
+        //          ->with('success','Jurusan created successfully.');
+        // }else
+            return response()->json($res);
     }
 
     /**
@@ -85,9 +73,12 @@ class JurusanController extends Controller
         $request->validate([
             'jurusan_nama' => 'required',
         ]);
-  
-        $category->update($request->all());
-        return response()->json('successfully');
+        $res = $jurusan->update($request->all());
+        // if (Auth::user()){
+        //     return redirect()->route('jurusan.index')
+        //          ->with('success','Jurusan updated successfully.');
+        // }else;
+            return response()->json($res);
     }
 
     /**
@@ -98,7 +89,7 @@ class JurusanController extends Controller
      */
     public function destroy(Jurusan $jurusan)
     {
-        $category->delete();
-        return response()->json('successfully');
+        $res = $jurusan->delete();
+        return response()->json($res);
     }
 }

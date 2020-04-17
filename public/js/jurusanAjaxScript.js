@@ -1,11 +1,10 @@
-
 $(document).ready(function(){
-
     //get base URL *********************
-    var url = $('#url').val();
+    var url = "jurusan/";
 
     //display modal form for creating new jurusan *********************
     $('#btn_add').click(function(){
+        $('#myModalLabel').text('Tambah Jurusan');
         $('#btn-save').val("add");
         $('#frmJurusan').trigger("reset");
         $('#myModal').modal('show');
@@ -14,17 +13,14 @@ $(document).ready(function(){
     //display modal form for jurusan EDIT ***************************
     $(document).on('click','.open_modal',function(){
         var jurusan_id = $(this).val();
-        console.log(url);
-       
-        // Populate Data in Edit Modal Form
         $.ajax({
             type: "GET",
-            url: url + '/' + jurusan_id,
+            url: url+jurusan_id,
             success: function (data) {
                 console.log(data);
+                $('#myModalLabel').text('Ubah Jurusan');
                 $('#jurusan_id').val(data.jurusan_id);
                 $('#jurusan_nama').val(data.jurusan_nama);
-                // $('#price').val(data.price);
                 $('#btn-save').val("update");
                 $('#myModal').modal('show');
             },
@@ -44,8 +40,8 @@ $(document).ready(function(){
 
         e.preventDefault(); 
         var formData = {
-            name: $('#jurusan_nama').val(),
-            // price: $('#price').val(),
+          jurusan_id: $('#jurusan_id').val(),
+          jurusan_nama: $('#jurusan_nama').val(),
         }
 
         //used to determine the http verb to use [add=POST], [update=PUT]
@@ -55,7 +51,7 @@ $(document).ready(function(){
         var my_url = url;
         if (state == "update"){
             type = "PUT"; //for updating existing resource
-            my_url += '/' + jurusan_id;
+            my_url += jurusan_id;
         }
         console.log(formData);
         $.ajax({
@@ -64,17 +60,8 @@ $(document).ready(function(){
             data: formData,
             dataType: 'json',
             success: function (data) {
-                console.log(data);
-                var jurusan = '<tr id="jurusan' + data.id + '"><td>' + data.id + '</td><td>' + data.name + '</td><td>' + data.price + '</td>';
-                jurusan += '<td><button class="btn btn-warning btn-detail open_modal" value="' + data.id + '">Edit</button>';
-                jurusan += ' <button class="btn btn-danger btn-delete delete-jurusan" value="' + data.id + '">Delete</button></td></tr>';
-                if (state == "add"){ //if user added a new record
-                    $('#jurusans-list').append(jurusan);
-                }else{ //if user updated an existing record
-                    $("#jurusan" + jurusan_id).replaceWith( jurusan );
-                }
-                $('#frmJurusan').trigger("reset");
-                $('#myModal').modal('hide')
+                location.reload();
+
             },
             error: function (data) {
                 console.log('Error:', data);
@@ -92,10 +79,9 @@ $(document).ready(function(){
         })
         $.ajax({
             type: "DELETE",
-            url: url + '/' + jurusan_id,
+            url: url + jurusan_id,
             success: function (data) {
-                console.log(data);
-                $("#jurusan" + jurusan_id).remove();
+                location.reload();
             },
             error: function (data) {
                 console.log('Error:', data);

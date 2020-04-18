@@ -22,6 +22,8 @@ Route::get('perusahaan/fetch_logo/{id}', 'PerusahaanController@fetch_logo');
 
 
 Route::resource('jurusan', 'JurusanController');
+
+Route::resource('ulasan', 'UlasanController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

@@ -8,6 +8,7 @@ class Jurusan extends Model
 {
     protected $table = 'jurusan';
     protected $primaryKey = 'jurusan_id'; // or null
+    protected $fillable = ['jurusan_id','jurusan_nama'];
 
     public function perusahaan()
     {

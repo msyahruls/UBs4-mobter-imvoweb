@@ -18,6 +18,9 @@ Route::get('/', function () {
 });
 
 Route::resource('perusahaan', 'PerusahaanController');
+Route::get('perusahaan/fetch_logo/{id}', 'PerusahaanController@fetch_logo');
+
+
 Route::resource('jurusan', 'JurusanController');
 Auth::routes();
 

@@ -19,6 +19,10 @@ class CreatePerusahaanTable extends Migration
             $table->string('perusahaan_alamat');
             $table->string('perusahaan_email');
             $table->string('perusahaan_telepon');
+            $table->binary('perusahaan_logo')->nullable();
+            $table->binary('perusahaan_gambar1')->nullable();
+            $table->binary('perusahaan_gambar2')->nullable();
+            $table->binary('perusahaan_gambar3')->nullable();
             $table->timestamps();
         });
     }

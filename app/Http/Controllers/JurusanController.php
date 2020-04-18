@@ -21,11 +21,16 @@ class JurusanController extends Controller
             $query->where('jurusan_nama', 'LIKE', '%'.$request->search.'%');})
             ->orderBy('jurusan_nama','asc')
             ->with('perusahaan')->paginate(10);
-        if (Auth::user()){
+            
+        if (Auth::user())
+        {
             return view('jurusan.index',compact('data'))
                 ->with('i', (request()->input('page', 1) - 1) * 10);
-        }else
+        }
+        else
+        {
             return response()->json($data);
+        }
     }
 
     /**
@@ -36,28 +41,20 @@ class JurusanController extends Controller
      */
     public function store(Request $request)
     {
-        $jurusan_nama = $request->input('jurusan_nama');
+        $form_data = array(
+            'jurusan_nama' => $request->jurusan_nama
+        );
 
-        $data = new \App\Jurusan();
-        $data->jurusan_nama = $jurusan_nama;
+        Jurusan::create($form_data);
 
-        if($data->save()){
-            $res['message'] = "Success!";
-            $res['value'] = "$data";
-            return response($res);
+        if (Auth::user())
+        {
+            return redirect('/jurusan')->with('i', (request()->input('page', 1) - 1) * 10);
         }
-
-        // $request->validate([
-        //     'jurusan_nama' => 'required',
-        // ]);
-
-        // // $data=Jurusan::create($request->all());
-        // if($data=Jurusan::create($request->all())){
-        //     $res['message'] = "Success!";
-        //     $res['value'] = "$data";
-        //     return response()->json($res);
-        // }
-        // return response()->json('successfully');
+        else
+        {
+            return response()->json('successfully');
+        }
     }
 
     /**
@@ -80,14 +77,22 @@ class JurusanController extends Controller
      * @param  \App\Jurusan  $jurusan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Jurusan $jurusan)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'jurusan_nama' => 'required',
-        ]);
+        $form_data = array(
+            'jurusan_nama' => $request->jurusan_nama
+        );
   
-        $category->update($request->all());
-        return response()->json('successfully');
+        Jurusan::where('jurusan_id',$id)->update($form_data);
+
+        if (Auth::user())
+        {
+            return redirect('/jurusan')->with('i', (request()->input('page', 1) - 1) * 10);
+        }
+        else
+        {
+            return response()->json('successfully');
+        }
     }
 
     /**
@@ -96,9 +101,17 @@ class JurusanController extends Controller
      * @param  \App\Jurusan  $jurusan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Jurusan $jurusan)
+    public function destroy($id)
     {
-        $category->delete();
-        return response()->json('successfully');
+        $jurusan = Jurusan::findOrFail($id);
+        $jurusan->delete();
+        if (Auth::user())
+        {
+            return redirect('/jurusan')->with('i', (request()->input('page', 1) - 1) * 10);
+        }
+        else
+        {
+            return response()->json('successfully');
+        }
     }
 }

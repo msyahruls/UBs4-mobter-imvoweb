@@ -13,6 +13,7 @@
                   <a class="nav-link" href="{{ route('jurusan.index') }}"><i class="far fa-square"></i> <span>Jurusan</span></a>
                   <a class="nav-link" href="{{ route('perusahaan.index') }}"><i class="far fa-square"></i> <span>Perusahaan</span></a>
                   <a class="nav-link" href="{{ route('ulasan.index') }}"><i class="far fa-square"></i> <span>Ulasan</span></a>
+                  <a class="nav-link" href="{{ route('berita.index') }}"><i class="far fa-square"></i> <span>Berita</span></a>
                 @endif
               </li>
           </ul>

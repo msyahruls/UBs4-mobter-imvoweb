@@ -12,6 +12,7 @@
                 @if(auth()->user())
                   <a class="nav-link" href="{{ route('jurusan.index') }}"><i class="far fa-square"></i> <span>Jurusan</span></a>
                   <a class="nav-link" href="{{ route('perusahaan.index') }}"><i class="far fa-square"></i> <span>Perusahaan</span></a>
+                  <a class="nav-link" href="{{ route('ulasan.index') }}"><i class="far fa-square"></i> <span>Ulasan</span></a>
                 @endif
               </li>
           </ul>

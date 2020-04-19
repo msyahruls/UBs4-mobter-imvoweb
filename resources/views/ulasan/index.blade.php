@@ -1,6 +1,10 @@
 @extends('layouts.adminmain')
 
 @section('content')
+
+<!-- Important to work AJAX CSRF -->
+<meta name="_token" content="{!! csrf_token() !!}" />
+
 <section class="section">
   
   <div class="section-header">
@@ -24,7 +28,7 @@
         </div>
         <div class="card-header">
           <button id="btn_add" name="btn_add" type="button" data-toggle="modal" data-target="#addData" class="btn btn-primary pull-right">
-            <i class="fa fa-plus"></i> Tambah Ulasan
+            <i class="fa fa-plus"></i> Tambah Jurusan
           </button>
           &nbsp;
           <a class="btn btn-success" href="{{-- route('ulasan.export') --}}"><i class="fa fa-print"></i> Export Data</a>
@@ -43,19 +47,19 @@
                 <th scope="col">Action</th>
               </tr>
             </thead>
-            <tbody id="ulasans-list" name="ulasans-list">
+            <tbody id="ulasan-list" name="ulasan-list">
               @forelse($data as $ulasan)
               <tr>
-                <td width="5%">{{ ++$i }}</td>
+                <td>{{ ++$i }}</td>
                 <td>{{ $ulasan->ulasan_nama_mhs }}</td>
-                <td width="20%">{{ $ulasan->Jurusan->jurusan_nama }}</td>
+                <td>{{ $ulasan->Jurusan->jurusan_nama }}</td>
                 <td>{{ $ulasan->ulasan_angkatan }}</td>
                 <td>{{ $ulasan->Perusahaan->perusahaan_nama }}</td>
                 <td>{{ $ulasan->ulasan_periode}}</td>
                 <td>{{ $ulasan->ulasan_testimoni }}</td>
                 <td width="15%">
                   <div class="btn-group">
-                    <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editData{{$ulasan->ulasan_id}}"><i class="fas fa-pen"></i></button>
+                    <button class="btn btn-sm btn-warning view_modal color" data-toggle="modal" data-target="#editData{{$ulasan->ulasan_id}}"><i class="fas fa-pen"></i></button>
                     <a class="btn btn-sm btn-info color open_modal" href="{{ route('ulasan.show', $ulasan->ulasan_id) }}"><i class="fas fa-eye"></i></a>
                     <button class="btn btn-sm btn-danger view_modal color" data-toggle="modal" data-target="#deleteData{{$ulasan->ulasan_id}}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                   </div>   
@@ -78,14 +82,13 @@
     </div>
   </div>
 </section>
-
 <!-- Modal ADD -->
   <div class="modal fade" id="addData" role="dialog" aria-labelledby="addData" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content"> 
         <form action="{{ route('ulasan.store') }}" method="POST">
           <div class="modal-header">
-            <h5 class="modal-title" id="DataLabel"><i class="far fa-plus-square"></i>&nbsp; Tambah Data Ulasan</h5>
+            <h5 class="modal-title" id="DataLabel"><i class="far fa-plus-square"></i>&nbsp; Tambah Data Jurusan</h5>
           </div>
           <hr>
           <div class="modal-body">
@@ -148,7 +151,7 @@
         <div class="modal-content"> 
           <form action="{{ route('ulasan.update', $ulasan->ulasan_id) }}" method="post">
             <div class="modal-header">
-              <h5 class="modal-title" id="DataLabel"><i class="far fa-edit"></i> &nbsp; Edit Data Ulasan</h5>
+              <h5 class="modal-title" id="DataLabel"><i class="far fa-edit"></i> &nbsp; Edit Data Jurusan</h5>
             </div>
             <hr>
             <div class="modal-body">
@@ -156,11 +159,11 @@
               @method('PATCH')
               <div class="form-group">
                 <label for="inputNamaJurusan" style="font-weight: bold;">
-                Nama Mahasiswa<i style="color: red;">*</i>
-              </label>
-              <input name="ulasan_nama_mhs" type="text" class="form-control" id="inputNamaPerusahaan" value="{{ $ulasan->ulasan_nama_mhs }}" required="" style="font-weight: bold;">
+                  Nama Mahasiswa<i style="color: red;">*</i>
+                </label>
+                <input name="ulasan_nama_mhs" type="text" class="form-control" id="inputNamaPerusahaan" value="{{ $ulasan->ulasan_nama_mhs }}" required="" style="font-weight: bold;">
 
-              <label for="inputNamaJurusan" style="font-weight: bold;">
+                <label for="inputNamaJurusan" style="font-weight: bold;">
                 Jurusan Mahasiswa<i style="color: red;">*</i>
               </label>
               <select class="form-control" name="ulasan_jurusan_id">
@@ -181,7 +184,7 @@
                 @foreach( $perusahaan as $jrs)
                   <option value="{{ $jrs->perusahaan_id }}" {{ $jrs->perusahaan_id == $ulasan->ulasan_perusahan_id ? 'selected="selected"' : '' }}> {{ $jrs->perusahaan_nama }} </option>
                  @endforeach
-              </select>   
+              </select> 
 
               <label for="inputNamaJurusan" style="font-weight: bold;">
                 Periode Magang<i style="color: red;">*</i>
@@ -192,7 +195,7 @@
                 Testimoni<i style="color: red;">*</i>
               </label>
               <input name="ulasan_testimoni" type="text" class="form-control" id="inputNamaPerusahaan" value="{{ $ulasan->ulasan_testimoni }}" required="" style="font-weight: bold;">
-
+              </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -211,7 +214,7 @@
 
 <!-- Modal DELETE -->
   @foreach($data as $ulasan)
-    <div class="modal fade in" id="deleteData{{$ulasan->ulasan_id}}" role="dialog" aria-labelledby="deleteData" aria-hidden="true" >
+    <div class="modal fade" id="deleteData{{$ulasan->ulasan_id}}" role="dialog" aria-labelledby="deleteData" aria-hidden="true" >
       <div class="modal-dialog" role="document">
         <div class="modal-content"> 
           <form action="{{route('ulasan.destroy', $ulasan->ulasan_id)}}" method="post">
@@ -223,11 +226,11 @@
               <div class="form-group">
                 <h5>
                   <br>
-                    Hapus <b>{{$ulasan->ulasan_mhs_nama}}</b> ? 
+                    Hapus <b>{{$ulasan->ulasan_nama_mhs}}</b> ? 
                 </h5>
               </div>
             </div>
-            <div class="modal-footer">\
+            <div class="modal-footer">
               @csrf
               @method('DELETE')
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -239,7 +242,4 @@
     </div>
   @endforeach
 <!-- End of Modal DELETE--> 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
 @endsection()

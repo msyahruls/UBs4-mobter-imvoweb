@@ -17,18 +17,23 @@ class JurusanController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Jurusan::when($request->search, function($query) use($request){
-            $query->where('jurusan_nama', 'LIKE', '%'.$request->search.'%');})
-            ->orderBy('jurusan_nama','asc')
-            ->with('perusahaan')->paginate(10);
             
         if (Auth::user())
         {
+            $data = Jurusan::when($request->search, function($query) use($request){
+                $query->where('jurusan_nama', 'LIKE', '%'.$request->search.'%');})
+                ->orderBy('jurusan_nama','asc')
+                ->with('perusahaan')->paginate(10);
             return view('jurusan.index',compact('data'))
                 ->with('i', (request()->input('page', 1) - 1) * 10);
         }
         else
         {
+            $data = Jurusan::when($request->search, function($query) use($request){
+                $query->where('jurusan_nama', 'LIKE', '%'.$request->search.'%');})
+                ->orderBy('jurusan_nama','asc')
+                ->with('perusahaan')->get();
+            // return response()->json(array('result' => $data));
             return response()->json($data);
         }
     }

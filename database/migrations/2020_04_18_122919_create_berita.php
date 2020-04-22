@@ -17,7 +17,7 @@ class CreateBerita extends Migration
             $table->id('berita_id');
             $table->string('berita_judul');
             $table->string('berita_link');
-            $table->string('berita_gambar')->nullable();
+            $table->string('berita_gambar');
             $table->timestamps();
         });
     }

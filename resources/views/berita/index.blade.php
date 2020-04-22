@@ -8,7 +8,7 @@
 <section class="section">
   
   <div class="section-header">
-    <h1>Jurusan</h1>
+    <h1>Berita</h1>
   </div>
   <div class="section-body">
     <div class="col-12 col-md-12 col-lg-12">
@@ -28,7 +28,7 @@
         </div>
         <div class="card-header">
           <button id="btn_add" name="btn_add" type="button" data-toggle="modal" data-target="#addData" class="btn btn-primary pull-right">
-            <i class="fa fa-plus"></i> Tambah Jurusan
+            <i class="fa fa-plus"></i> Tambah Berita
           </button>
           &nbsp;
           <a class="btn btn-success" href="{{-- route('berita.export') --}}"><i class="fa fa-print"></i> Export Data</a>
@@ -47,11 +47,11 @@
             <tbody id="jurusans-list" name="jurusans-list">
               @forelse($data as $berita)
               <tr>
-                <td width="5%">{{ ++$i }}</td>
+                <td>{{ ++$i }}</td>
                 <td>{{ $berita->berita_judul }}</td>
-                <td width="20%">{{ $berita->berita_link }}</td>
-                <td width="20%">{{ $berita->berita_gambar }}</td>
-                <td width="15%">
+                <td>{{ $berita->berita_link }}</td>
+                <td><img width="120px" src="{{ url('/image/'.$berita->berita_gambar) }}"></td>
+                <td>
                   <div class="btn-group">
                     <button class="btn btn-sm btn-warning view_modal color" data-toggle="modal" data-target="#editData{{$berita->berita_id}}"><i class="fas fa-pen"></i></button>
                     <a class="btn btn-sm btn-info color open_modal" href="{{ route('berita.show', $berita->berita_id) }}"><i class="fas fa-eye"></i></a>
@@ -80,7 +80,7 @@
   <div class="modal fade" id="addData" role="dialog" aria-labelledby="addData" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content"> 
-        <form action="{{ route('berita.store') }}" method="POST">
+        <form action="{{ route('berita.store') }}" method="POST" enctype="multipart/form-data">
           <div class="modal-header">
             <h5 class="modal-title" id="DataLabel"><i class="far fa-plus-square"></i>&nbsp; Tambah Data berita</h5>
           </div>
@@ -99,6 +99,10 @@
               </label>
               <input name="berita_link" type="text" class="form-control" id="inputNamaJurusan" placeholder="Masukkan Link Berita" required="" style="font-weight: bold;">
             </div>
+            <div class="form-group">
+                <label>Gambar</label>
+                <input type="file" name="berita_gambar" class="form-control">
+              </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -115,7 +119,7 @@
     <div class="modal fade" id="editData{{$berita->berita_id}}" role="dialog" aria-labelledby="deleteData" aria-hidden="true" >
       <div class="modal-dialog" role="document">
         <div class="modal-content"> 
-          <form action="{{ route('berita.update', $berita->berita_id) }}" method="post">
+          <form action="{{ route('berita.update', $berita->berita_id) }}" method="post" enctype="multipart/form-data">
             <div class="modal-header">
               <h5 class="modal-title" id="DataLabel"><i class="far fa-edit"></i> &nbsp; Edit Data Berita</h5>
             </div>
@@ -130,6 +134,11 @@
               <div class="form-group">
                 <label style="font-weight: bold;">Link Berita<i style="color: red;">*</i></label>
                 <input type="text" name="berita_link" class="form-control" value="{{ $berita->berita_link }}" required="" style="font-weight: bold;">
+              </div>
+              <div class="form-group">
+                <label for="harga" class="control-label">Gambar</label>
+                <input name="berita_gambar" type="file" class="form-control" value="{{ url('/image/'.$berita->berita_gambar) }}">
+                <input name="hidden_image" type="hidden" class="form-control" value="{{$berita->berita_gambar}}">
               </div>
             </div>
             <div class="modal-footer">

@@ -76,6 +76,7 @@
     </div>
   </div>
 </section>
+
 <!-- Modal ADD -->
   <div class="modal fade" id="addData" role="dialog" aria-labelledby="addData" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -140,6 +141,11 @@
                 <input name="berita_gambar" type="file" class="form-control" value="{{ url('/image/'.$berita->berita_gambar) }}">
                 <input name="hidden_image" type="hidden" class="form-control" value="{{$berita->berita_gambar}}">
               </div>
+
+              <div class="form-group">
+                  <img src="{{ url('image/'.$berita->berita_gambar) }}" width="150px">
+              </div> 
+
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">

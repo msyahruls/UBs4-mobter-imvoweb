@@ -95,6 +95,7 @@ class BeritaController extends Controller
     public function update(Request $request, $id)
     {
         $nama_file = $request->hidden_image;
+        
         $file = $request->file('berita_gambar');
 
         if ($file !='') {

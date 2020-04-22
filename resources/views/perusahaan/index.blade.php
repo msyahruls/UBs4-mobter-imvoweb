@@ -47,17 +47,23 @@
                @forelse($data as $perusahaan)
               <tr>
                 <td width="5%">{{ ++$i }}</td>
-                {{ $perusahaan->perusahaan_logo }}
-                <td><img src="perusahaan/fetch_logo/{{ $perusahaan->perusahaan_id }}"  class="img-thumbnail" width="200" /></td>
+                <td><img width="120px" src="{{ url('/image/'.$perusahaan->perusahaan_logo) }}"></td>
                 <td>{{ $perusahaan->perusahaan_nama }}</td>
                 <td>{{ $perusahaan->perusahaan_alamat }}</td>
                 <td>{{ $perusahaan->perusahaan_email }}</td>
                 <td>{{ $perusahaan->perusahaan_telepon }}</td>
+
                 <td width="15%">
                   <div class="btn-group">
                     <button class="btn btn-sm btn-warning view_modal color" data-toggle="modal" data-target="#editData{{$perusahaan->perusahaan_id}}"><i class="fas fa-pen"></i></button>
-                    <a class="btn btn-sm btn-info color open_modal" href=""><i class="fas fa-eye"></i></a>
-                    <button class="btn btn-sm btn-danger view_modal color" data-toggle="modal" data-target="" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                    <a class="btn btn-sm btn-info color open_modal" href="{{ route('perusahaan.show', $perusahaan->perusahaan_id) }}"><i class="fas fa-eye"></i></a>
+
+                    <form action="{{route('perusahaan.destroy', $perusahaan->perusahaan_id)}}" method="POST">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="btn btn-sm btn-danger delete color" onclick="return confirm('Are you sure to delete {{ $perusahaan->perusahaan_nama }} ?');"><i class="fas fa-trash"></i></button>
+                    </form>
+                    
                   </div> 
                 </td>
               </tr>
@@ -78,6 +84,7 @@
     </div>  
   </div>
 </section>
+
 <!-- Modal ADD -->
   <div class="modal fade" id="addData" role="dialog" aria-labelledby="addData" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -146,7 +153,7 @@
     <div class="modal fade" id="editData{{$perusahaan->perusahaan_id}}" role="dialog" aria-labelledby="deleteData" aria-hidden="true" >
       <div class="modal-dialog" role="document">
         <div class="modal-content"> 
-          <form action="{{ route('perusahaan.update', $perusahaan->perusahaan_id) }}" method="post">
+          <form action="{{ route('perusahaan.update', $perusahaan->perusahaan_id) }}" method="post" enctype="multipart/form-data" >
             <div class="modal-header">
               <h5 class="modal-title" id="DataLabel"><i class="far fa-edit"></i> &nbsp; Edit Data Jurusan</h5>
             </div>
@@ -175,12 +182,55 @@
               </label>
               <input name="perusahaan_telepon" type="text" class="form-control" id="inputTeleponPerusahaan" value="{{ $perusahaan->perusahaan_telepon }}" required="" style="font-weight: bold;">
 
-              <label for="inputNamaJurusan" style="font-weight: bold;">
+              <div class="form-group">
+                <label for="inputNamaJurusan" style="font-weight: bold;">
                 Logo Perusahaan<i style="color: red;">*</i>
-              </label>
-              <input type="file" class="form-control" name="perusahaan_logo">
-              <img src="perusahaan/fetch_logo/{{ $perusahaan->perusahaan_id }}"  class="img-thumbnail" width="200" />   
-               <input type="file" name="hidden_image" value="{{ $perusahaan->perusahaan_logo }}">      
+                 </label>
+                <input name="perusahaan_logo" type="file" class="form-control" value="{{ url('/image/'.$perusahaan->perusahaan_logo) }}">
+                <input name="hidden_image1" type="hidden" class="form-control" value="{{$perusahaan->perusahaan_logo}}">
+              </div>
+
+              <div class="form-group">
+                  <img src="{{ url('image/'.$perusahaan->perusahaan_logo) }}" width="150px">
+              </div> 
+
+              <div class="form-group">
+                <label for="inputNamaJurusan" style="font-weight: bold;">
+                Gambar Perusahaan 1<i style="color: red;">*</i>
+                 </label>
+                <input name="perusahaan_gambar1" type="file" class="form-control" value="{{ url('/image/'.$perusahaan->perusahaan_gambar1) }}">
+                <input name="hidden_image2" type="hidden" class="form-control" value="{{$perusahaan->perusahaan_gambar1}}">
+              </div>
+
+              <div class="form-group">
+                  <img src="{{ url('image/'.$perusahaan->perusahaan_gambar1) }}" width="150px">
+              </div> 
+
+              <div class="form-group">
+                <label for="inputNamaJurusan" style="font-weight: bold;">
+                Gambar Perusahaan 2<i style="color: red;">*</i>
+                 </label>
+                <input name="perusahaan_gambar2" type="file" class="form-control" value="{{ url('/image/'.$perusahaan->perusahaan_gambar2) }}">
+                <input name="hidden_image3" type="hidden" class="form-control" value="{{$perusahaan->perusahaan_gambar2}}">
+              </div>
+
+              <div class="form-group">
+                  <img src="{{ url('image/'.$perusahaan->perusahaan_gambar2) }}" width="150px">
+              </div> 
+
+              <div class="form-group">
+                <label for="inputNamaJurusan" style="font-weight: bold;">
+                Gambar Perusahaan 3<i style="color: red;">*</i>
+                 </label>
+                <input name="perusahaan_gambar3" type="file" class="form-control" value="{{ url('/image/'.$perusahaan->perusahaan_gambar3) }}">
+                <input name="hidden_image4" type="hidden" class="form-control" value="{{$perusahaan->perusahaan_gambar1}}">
+              </div>
+
+              <div class="form-group">
+                  <img src="{{ url('image/'.$perusahaan->perusahaan_gambar3) }}" width="150px">
+              </div> 
+
+
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -196,5 +246,36 @@
     </div>
   @endforeach
 <!-- End of Modal Edit-->
+
+<!-- Modal DELETE -->
+ @foreach($data as $perusahaan)
+     <div class="modal fade" id="deleteData{{$perusahaan->perusahaan_id}}" role="dialog" aria-labelledby="deleteData" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content"> 
+          <form action="{{route('perusahaan.destroy', $perusahaan->perusahaan_id)}}" method="post">
+            <div class="modal-header">
+              <h5 class="modal-title" id="DataLabel"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> &nbsp; Konfirmasi Hapus</h5>
+            </div>
+            <hr>
+            <div class="modal-body">
+              <div class="form-group">
+                <h5>
+                  <br>
+                    Hapus <b>{{$perusahaan->perusahaan_id}}</b> ? 
+                </h5>
+              </div>
+            </div>
+            <div class="modal-footer">\
+              @csrf
+              @method('DELETE')
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  @endforeach
 
 @endsection()

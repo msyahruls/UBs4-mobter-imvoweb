@@ -57,12 +57,13 @@
                   <div class="btn-group">
                     <button class="btn btn-sm btn-warning view_modal color" data-toggle="modal" data-target="#editData{{$perusahaan->perusahaan_id}}"><i class="fas fa-pen"></i></button>
                     <a class="btn btn-sm btn-info color open_modal" href="{{ route('perusahaan.show', $perusahaan->perusahaan_id) }}"><i class="fas fa-eye"></i></a>
+                    <button class="btn btn-sm btn-danger view_modal color" data-toggle="modal" data-target="#deleteData{{$perusahaan->perusahaan_id}}"><i class="fas fa-trash"></i></button>
 
-                    <form action="{{route('perusahaan.destroy', $perusahaan->perusahaan_id)}}" method="POST">
+                    <!-- <form action="{{route('perusahaan.destroy', $perusahaan->perusahaan_id)}}" method="POST">
                       @csrf
                       @method('DELETE')
                       <button type="submit" class="btn btn-sm btn-danger delete color" onclick="return confirm('Are you sure to delete {{ $perusahaan->perusahaan_nama }} ?');"><i class="fas fa-trash"></i></button>
-                    </form>
+                    </form> -->
                     
                   </div> 
                 </td>
@@ -150,7 +151,7 @@
 
 <!-- Modal Edit -->
   @foreach($data as $perusahaan)
-    <div class="modal fade" id="editData{{$perusahaan->perusahaan_id}}" role="dialog" aria-labelledby="deleteData" aria-hidden="true" >
+    <div class="modal fade" id="editData{{$perusahaan->perusahaan_id}}" role="dialog" aria-labelledby="editData" aria-hidden="true" >
       <div class="modal-dialog" role="document">
         <div class="modal-content"> 
           <form action="{{ route('perusahaan.update', $perusahaan->perusahaan_id) }}" method="post" enctype="multipart/form-data" >
@@ -164,7 +165,8 @@
               <div class="form-group">
                 <label for="inputNamaJurusan" style="font-weight: bold;">
                 Nama Perusahaan<i style="color: red;">*</i>
-              </label>
+                </label>
+              </div>
               <input name="perusahaan_nama" type="text" class="form-control" id="inputNamaPerusahaan" value="{{ $perusahaan->perusahaan_nama }}" required="" style="font-weight: bold;">
 
               <label for="inputNamaJurusan" style="font-weight: bold;">
@@ -249,6 +251,7 @@
 
 <!-- Modal DELETE -->
  @foreach($data as $perusahaan)
+ 
      <div class="modal fade" id="deleteData{{$perusahaan->perusahaan_id}}" role="dialog" aria-labelledby="deleteData" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content"> 
@@ -261,11 +264,11 @@
               <div class="form-group">
                 <h5>
                   <br>
-                    Hapus <b>{{$perusahaan->perusahaan_id}}</b> ? 
+                    Hapus <b>{{$perusahaan->perusahaan_nama}}</b> ? 
                 </h5>
               </div>
             </div>
-            <div class="modal-footer">\
+            <div class="modal-footer">
               @csrf
               @method('DELETE')
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>

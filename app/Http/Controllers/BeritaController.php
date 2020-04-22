@@ -40,14 +40,27 @@ class BeritaController extends Controller
      */
     public function store(Request $request)
     {
-         $form_data = array(
+        $this->validate($request, [
+            'berita_judul'=>'required',
+            'berita_link' => 'required',
+            'berita_gambar' => 'required|image|max:2048'
+        ]);
+     
+        // menyimpan data file yang diupload ke variabel $file
+        $file = $request->file('berita_gambar');
+     
+        $nama_file = time()."_".$file->getClientOriginalName();
+     
+        // isi dengan nama folder tempat kemana file diupload
+        $tujuan_upload = 'image';
+        $file->move($tujuan_upload,$nama_file);
+     
+     
+        Berita::create([
             'berita_judul' => $request->berita_judul,
-            'berita_link' => $request->berita_link
-            // 'berita_gambar' => $request->berita_gambar
-
-        );
-
-        Berita::create($form_data);
+            'berita_link' => $request->berita_link,
+            'berita_gambar' => $nama_file
+        ]);
 
         if (Auth::user())
         {
@@ -81,11 +94,28 @@ class BeritaController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $nama_file = $request->hidden_image;
+        $file = $request->file('berita_gambar');
+
+        if ($file !='') {
+                $this->validate($request, [
+                'berita_gambar' => 'required|image|max:2048',
+            ]);
+                $nama_file = time()."_".$file->getClientOriginalName();
+                $tujuan_upload = 'image';
+                $file->move($tujuan_upload,$nama_file);
+        }else{
+            $request->validate([
+                'berita_judul'=>'required',
+                'berita_link' => 'required'
+            ]);
+        }
+
         $form_data = array(
             'berita_judul' => $request->berita_judul,
-            'berita_link' => $request->berita_link
+            'berita_link' => $request->berita_link,
+            'berita_gambar' => $nama_file
         );
-  
         Berita::where('berita_id',$id)->update($form_data);
 
         if (Auth::user())

@@ -10,6 +10,17 @@
   <div class="section-header">
     <h1>Ulasan</h1>
   </div>
+  
+  @if ($message = Session::get('success'))
+      <div class="card">
+          <div class="card-body">
+                <div class="alert alert-success">
+                    <p>{{ $message }}</p>
+                </div>
+          </div>
+      </div>
+  @endif
+
   <div class="section-body">
     <div class="col-12 col-md-12 col-lg-12">
       <div class="card">
@@ -34,44 +45,46 @@
           <a class="btn btn-success" href="{{-- route('ulasan.export') --}}"><i class="fa fa-print"></i> Export Data</a>
         </div>
         <div class="card-body">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nama Mahasiswa</th>
-                <th scope="col">Jurusan</th>
-                <th scope="col">Angkatan Mahasiswa</th>
-                <th scope="col">Perusahaan</th>
-                <th scope="col">Periode</th>
-                <th scope="col">Testimoni</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody id="ulasan-list" name="ulasan-list">
-              @forelse($data as $ulasan)
-              <tr>
-                <td>{{ ++$i }}</td>
-                <td>{{ $ulasan->ulasan_nama_mhs }}</td>
-                <td>{{ $ulasan->Jurusan->jurusan_nama }}</td>
-                <td>{{ $ulasan->ulasan_angkatan }}</td>
-                <td>{{ $ulasan->Perusahaan->perusahaan_nama }}</td>
-                <td>{{ $ulasan->ulasan_periode}}</td>
-                <td>{{ $ulasan->ulasan_testimoni }}</td>
-                <td width="15%">
-                  <div class="btn-group">
-                    <button class="btn btn-sm btn-warning view_modal color" data-toggle="modal" data-target="#editData{{$ulasan->ulasan_id}}"><i class="fas fa-pen"></i></button>
-                    <a class="btn btn-sm btn-info color open_modal" href="{{ route('ulasan.show', $ulasan->ulasan_id) }}"><i class="fas fa-eye"></i></a>
-                    <button class="btn btn-sm btn-danger view_modal color" data-toggle="modal" data-target="#deleteData{{$ulasan->ulasan_id}}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                  </div>   
-                </td>
-              </tr>
-              @empty
-              <tr>
-                <td colspan="3"><center>Data kosong</center></td>
-              </tr>
-              @endforelse
-            </tbody>
-          </table>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Nama Mahasiswa</th>
+                  <th scope="col">Jurusan</th>
+                  <th scope="col">Angkatan Mahasiswa</th>
+                  <th scope="col">Perusahaan</th>
+                  <th scope="col">Periode</th>
+                  <th scope="col">Testimoni</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody id="ulasan-list" name="ulasan-list">
+                @forelse($data as $ulasan)
+                <tr>
+                  <td>{{ ++$i }}</td>
+                  <td>{{ $ulasan->ulasan_nama_mhs }}</td>
+                  <td>{{ $ulasan->Jurusan->jurusan_nama }}</td>
+                  <td>{{ $ulasan->ulasan_angkatan }}</td>
+                  <td>{{ $ulasan->Perusahaan->perusahaan_nama }}</td>
+                  <td>{{ $ulasan->ulasan_periode}}</td>
+                  <td>{{ $ulasan->ulasan_testimoni }}</td>
+                  <td width="15%">
+                    <div class="btn-group">
+                      <button class="btn btn-sm btn-warning view_modal color" data-toggle="modal" data-target="#editData{{$ulasan->ulasan_id}}"><i class="fas fa-pen"></i></button>
+                      <a class="btn btn-sm btn-info color open_modal" href="{{ route('ulasan.show', $ulasan->ulasan_id) }}"><i class="fas fa-eye"></i></a>
+                      <button class="btn btn-sm btn-danger view_modal color" data-toggle="modal" data-target="#deleteData{{$ulasan->ulasan_id}}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                    </div>   
+                  </td>
+                </tr>
+                @empty
+                <tr>
+                  <td colspan="3"><center>Data kosong</center></td>
+                </tr>
+                @endforelse
+              </tbody>
+            </table>
+          </div>
         </div>
         <div class="card-footer text-right">
           <nav class="d-inline-block">
@@ -242,4 +255,5 @@
     </div>
   @endforeach
 <!-- End of Modal DELETE--> 
+
 @endsection()

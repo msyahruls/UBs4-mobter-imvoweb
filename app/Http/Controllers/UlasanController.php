@@ -37,16 +37,6 @@ class UlasanController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -67,7 +57,8 @@ class UlasanController extends Controller
 
         if (Auth::user())
         {
-            return redirect('/ulasan')->with('i', (request()->input('page', 1) - 1) * 10);
+            return redirect()->route('ulasan.index')
+                ->with('success','Data Created successfully');
         }
         else
         {
@@ -86,17 +77,6 @@ class UlasanController extends Controller
         $data = Ulasan::with('jurusan')
             ->where('ulasan_id', $ulasan->ulasan_id)->get();
         return response()->json($data);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -121,7 +101,8 @@ class UlasanController extends Controller
 
         if (Auth::user())
         {
-            return redirect('/ulasan')->with('i', (request()->input('page', 1) - 1) * 10);
+            return redirect()->route('ulasan.index')
+                ->with('success','Data Updated successfully');
         }
         else
         {
@@ -141,7 +122,8 @@ class UlasanController extends Controller
         $ulasan->delete();
         if (Auth::user())
         {
-            return redirect('/ulasan')->with('i', (request()->input('page', 1) - 1) * 10);
+            return redirect()->route('ulasan.index')
+                ->with('success','Data Deleted successfully');
         }
         else
         {

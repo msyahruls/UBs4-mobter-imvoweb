@@ -10,6 +10,17 @@
   <div class="section-header">
     <h1>Berita</h1>
   </div>
+
+  @if ($message = Session::get('success'))
+      <div class="card">
+          <div class="card-body">
+                <div class="alert alert-success">
+                    <p>{{ $message }}</p>
+                </div>
+          </div>
+      </div>
+  @endif
+  
   <div class="section-body">
     <div class="col-12 col-md-12 col-lg-12">
       <div class="card">
@@ -34,38 +45,40 @@
           <a class="btn btn-success" href="{{-- route('berita.export') --}}"><i class="fa fa-print"></i> Export Data</a>
         </div>
         <div class="card-body">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Judul</th>
-                <th scope="col">LINK</th>
-                <th scope="col">gambar</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody id="jurusans-list" name="jurusans-list">
-              @forelse($data as $berita)
-              <tr>
-                <td>{{ ++$i }}</td>
-                <td>{{ $berita->berita_judul }}</td>
-                <td>{{ $berita->berita_link }}</td>
-                <td><img width="120px" src="{{ url('/image/'.$berita->berita_gambar) }}"></td>
-                <td>
-                  <div class="btn-group">
-                    <button class="btn btn-sm btn-warning view_modal color" data-toggle="modal" data-target="#editData{{$berita->berita_id}}"><i class="fas fa-pen"></i></button>
-                    <a class="btn btn-sm btn-info color open_modal" href="{{ route('berita.show', $berita->berita_id) }}"><i class="fas fa-eye"></i></a>
-                    <button class="btn btn-sm btn-danger view_modal color" data-toggle="modal" data-target="#deleteData{{$berita->berita_id}}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                  </div>   
-                </td>
-              </tr>
-              @empty
-              <tr>
-                <td colspan="3"><center>Data kosong</center></td>
-              </tr>
-              @endforelse
-            </tbody>
-          </table>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Judul</th>
+                  <th scope="col">Link</th>
+                  <th scope="col">Gambar</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody id="jurusans-list" name="jurusans-list">
+                @forelse($data as $berita)
+                <tr>
+                  <td>{{ ++$i }}</td>
+                  <td>{{ $berita->berita_judul }}</td>
+                  <td>{{ $berita->berita_link }}</td>
+                  <td><img width="120px" src="{{ url('/image/'.$berita->berita_gambar) }}"></td>
+                  <td>
+                    <div class="btn-group">
+                      <button class="btn btn-sm btn-warning view_modal color" data-toggle="modal" data-target="#editData{{$berita->berita_id}}"><i class="fas fa-pen"></i></button>
+                      <a class="btn btn-sm btn-info color open_modal" href="{{ route('berita.show', $berita->berita_id) }}"><i class="fas fa-eye"></i></a>
+                      <button class="btn btn-sm btn-danger view_modal color" data-toggle="modal" data-target="#deleteData{{$berita->berita_id}}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                    </div>   
+                  </td>
+                </tr>
+                @empty
+                <tr>
+                  <td colspan="3"><center>Data kosong</center></td>
+                </tr>
+                @endforelse
+              </tbody>
+            </table>
+          </div>
         </div>
         <div class="card-footer text-right">
           <nav class="d-inline-block">
@@ -180,7 +193,7 @@
                 </h5>
               </div>
             </div>
-            <div class="modal-footer">\
+            <div class="modal-footer">
               @csrf
               @method('DELETE')
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -192,12 +205,5 @@
     </div>
   @endforeach
 <!-- End of Modal DELETE--> 
-
-<!-- ORET ORET E IPUL a.k.a Bisu Gaming -->
-<!-- Passing BASE URL to AJAX -->
-    <!-- Scripts -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <!-- <script src="{{asset('js/jurusanAjaxScript.js')}}"></script> -->
 
 @endsection()

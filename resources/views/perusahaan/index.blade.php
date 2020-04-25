@@ -1,11 +1,122 @@
+
 @extends('layouts.adminmain')
 
+@section('stylesheets')
+
+  {!! Html::style('css/select2.min.css') !!}
+  <style type="text/css">
+    .select2-container {
+        width: 100% !important;
+        padding: 0;
+    }
+    .select2-results { 
+      color: #FFF;
+      background-color: #003961;
+    }
+    .select2-container--default .select2-results__option--highlighted[aria-selected]{
+      color: #FFF;
+      background-color: #F39C12;
+    }
+    .select2-container--default .select2-results__option[aria-selected=true]{
+      color: #003961;
+      background-color: #F39C12;
+    }
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+      color: #F39C12;
+      background-color: #003961; 
+    }
+  </style>
+
+@endsection
+
 @section('content')
+{{-- <form action="{{ route('perusahaan.store') }}" method="POST" enctype="multipart/form-data">
+          <div class="modal-header">
+            <h5 class="modal-title" id="DataLabel"><i class="far fa-plus-square"></i>&nbsp; Tambah Data Perusahaan</h5>
+          </div>
+          <hr>
+          <div class="modal-body">
+            {{csrf_field()}}
+            <div class="form-group">
+
+              <label for="inputNamaPerusahaan" style="font-weight: bold;">
+                Nama Perusahaan<i style="color: red;">*</i>
+              </label>
+              <input name="perusahaan_nama" type="text" class="form-control" id="inputNamaPerusahaan" placeholder="Masukkan Nama Perusahaan" required="" style="font-weight: bold;">
+
+              <label for="inputAlamatPerusahaan" style="font-weight: bold;">
+                Alamat Perusahaan<i style="color: red;">*</i>
+              </label>
+              <input name="perusahaan_alamat" type="text" class="form-control" id="inputAlamatPerusahaan" placeholder="Masukkan Alamat Perusahaan" required="" style="font-weight: bold;">
+
+              <label for="inputEmailPerusahaan" style="font-weight: bold;">
+                Email Perusahaan<i style="color: red;">*</i>
+              </label>
+              <input name="perusahaan_email" type="text" class="form-control" id="inputEmailPerusahaan" placeholder="Masukkan Email Perusahaan" required="" style="font-weight: bold;">
+
+              <label for="inputTeleponPerusahaan" style="font-weight: bold;">
+                Telepon Perusahaan<i style="color: red;">*</i>
+              </label>
+              <input name="perusahaan_telepon" type="text" class="form-control" id="inputTeleponPerusahaan" placeholder="Masukkan Telepon Perusahaan" required="" style="font-weight: bold;">
+
+
+
+
+
+
+              <label for="inputTeleponPerusahaan" style="font-weight: bold;">
+                Jurusan<i style="color: red;">*</i>
+              </label>
+              <select class="form-control select2-multi" name="jurusan[]" multiple="multiple">
+                @foreach($jurusanAll as $jurusan)
+                  <option value="{{$jurusan->jurusan_id}}" class="form-control">{{$jurusan->jurusan_nama}}</option>
+                @endforeach
+              </select>
+
+
+              <label for="perusahaan_logo" style="font-weight: bold;">
+                Logo Perusahaan<i style="color: red;">*</i>
+              </label>
+              <input name="perusahaan_logo" type="file" class="form-control" required="" style="font-weight: bold;">
+
+              <label for="perusahaan_gambar1" style="font-weight: bold;">
+                Gambar Perusahaan (1)<i style="color: red;">*</i>
+              </label>
+              <input name="perusahaan_gambar1" type="file" class="form-control" required="" style="font-weight: bold;">
+
+              <label for="perusahaan_gambar2" style="font-weight: bold;">
+                Gambar Perusahaan (2)<i style="color: red;">*</i>
+              </label>
+              <input name="perusahaan_gambar2" type="file" class="form-control" required="" style="font-weight: bold;">
+
+              <label for="perusahaan_gambar3" style="font-weight: bold;">
+                Gambar Perusahaan (3)<i style="color: red;">*</i>
+              </label>
+              <input name="perusahaan_gambar3" type="file" class="form-control" required="" style="font-weight: bold;">
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary">Tambahkan</button>
+          </div>
+        </form> --}}
+
 <section class="section">
   
   <div class="section-header">
     <h1>Perusahaan</h1>
   </div>
+
+  @if ($message = Session::get('success'))
+      <div class="card">
+          <div class="card-body">
+                <div class="alert alert-success">
+                    <p>{{ $message }}</p>
+                </div>
+          </div>
+      </div>
+  @endif
 
   <div class="section-body">
     <div class="col-12 col-md-12 col-lg-12">
@@ -31,43 +142,46 @@
           <a class="btn btn-success" href="{{-- route('perusahaan.export') --}}"><i class="fa fa-print"></i> Export Data</a>
         </div>
         <div class="card-body">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Logo</th>
-                <th scope="col">Nama Perusahaan</th>
-                <th scope="col">Alamat</th>
-                <th scope="col">Email</th>
-                <th scope="col">Telepon</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-               @forelse($data as $perusahaan)
-              <tr>
-                <td width="5%">{{ ++$i }}</td>
-                {{ $perusahaan->perusahaan_logo }}
-                <td><img src="perusahaan/fetch_logo/{{ $perusahaan->perusahaan_id }}"  class="img-thumbnail" width="200" /></td>
-                <td>{{ $perusahaan->perusahaan_nama }}</td>
-                <td>{{ $perusahaan->perusahaan_alamat }}</td>
-                <td>{{ $perusahaan->perusahaan_email }}</td>
-                <td>{{ $perusahaan->perusahaan_telepon }}</td>
-                <td width="15%">
-                  <div class="btn-group">
-                    <button class="btn btn-sm btn-warning view_modal color" data-toggle="modal" data-target="#editData{{$perusahaan->perusahaan_id}}"><i class="fas fa-pen"></i></button>
-                    <a class="btn btn-sm btn-info color open_modal" href=""><i class="fas fa-eye"></i></a>
-                    <button class="btn btn-sm btn-danger view_modal color" data-toggle="modal" data-target="" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                  </div> 
-                </td>
-              </tr>
-              @empty
-              <tr>
-                <td colspan="3"><center>Data kosong</center></td>
-              </tr>
-              @endforelse
-            </tbody>
-          </table>
+          <div class="table-responsive">
+            <table class="table table-bordered ">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Logo</th>
+                  <th scope="col">Nama Perusahaan</th>
+                  <th scope="col">Alamat</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Telepon</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                 @forelse($data as $perusahaan)
+                <tr>
+                  <td width="5%">{{ ++$i }}</td>
+                  <td><img width="120px" src="{{ url('/image/'.$perusahaan->perusahaan_logo) }}"></td>
+                  <td>{{ $perusahaan->perusahaan_nama }}</td>
+                  <td>{{ $perusahaan->perusahaan_alamat }}</td>
+                  <td>{{ $perusahaan->perusahaan_email }}</td>
+                  <td>{{ $perusahaan->perusahaan_telepon }}</td>
+
+                  <td width="15%">
+                    <div class="btn-group">
+                      <a class="btn btn-sm btn-warning edit_modal color" href="{{ route('perusahaan.edit',$perusahaan->perusahaan_id) }}"><i class="fas fa-pen"></i></a>
+                      {{-- <button class="btn btn-sm btn-warning view_modal color" data-toggle="modal" data-target="#editData{{$perusahaan->perusahaan_id}}"><i class="fas fa-pen"></i></button> --}}
+                      <a class="btn btn-sm btn-info color open_modal" href="{{ route('perusahaan.show', $perusahaan->perusahaan_id) }}"><i class="fas fa-eye"></i></a>
+                      <button class="btn btn-sm btn-danger view_modal color" data-toggle="modal" data-target="#deleteData{{$perusahaan->perusahaan_id}}"><i class="fas fa-trash"></i></button>
+                    </div> 
+                  </td>
+                </tr>
+                @empty
+                <tr>
+                  <td colspan="3"><center>Data kosong</center></td>
+                </tr>
+                @endforelse
+              </tbody>
+            </table>
+          </div>
         </div>
         <div class="card-footer text-right">
           <nav class="d-inline-block">
@@ -78,6 +192,7 @@
     </div>  
   </div>
 </section>
+
 <!-- Modal ADD -->
   <div class="modal fade" id="addData" role="dialog" aria-labelledby="addData" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -90,42 +205,61 @@
           <div class="modal-body">
             {{csrf_field()}}
             <div class="form-group">
-              <label for="inputNamaJurusan" style="font-weight: bold;">
+              <label for="inputNamaPerusahaan" style="font-weight: bold;">
                 Nama Perusahaan<i style="color: red;">*</i>
               </label>
               <input name="perusahaan_nama" type="text" class="form-control" id="inputNamaPerusahaan" placeholder="Masukkan Nama Perusahaan" required="" style="font-weight: bold;">
 
-              <label for="inputNamaJurusan" style="font-weight: bold;">
+              <label for="inputAlamatPerusahaan" style="font-weight: bold;">
                 Alamat Perusahaan<i style="color: red;">*</i>
               </label>
               <input name="perusahaan_alamat" type="text" class="form-control" id="inputAlamatPerusahaan" placeholder="Masukkan Alamat Perusahaan" required="" style="font-weight: bold;">
 
-              <label for="inputNamaJurusan" style="font-weight: bold;">
+              <label for="inputEmailPerusahaan" style="font-weight: bold;">
                 Email Perusahaan<i style="color: red;">*</i>
               </label>
               <input name="perusahaan_email" type="text" class="form-control" id="inputEmailPerusahaan" placeholder="Masukkan Email Perusahaan" required="" style="font-weight: bold;">
 
-              <label for="inputNamaJurusan" style="font-weight: bold;">
+              <label for="inputTeleponPerusahaan" style="font-weight: bold;">
                 Telepon Perusahaan<i style="color: red;">*</i>
               </label>
               <input name="perusahaan_telepon" type="text" class="form-control" id="inputTeleponPerusahaan" placeholder="Masukkan Telepon Perusahaan" required="" style="font-weight: bold;">
 
-              <label for="inputNamaJurusan" style="font-weight: bold;">
+
+
+
+
+
+              <label for="inputJurusan" style="font-weight: bold;">
+                Jurusan<i style="color: red;">*</i>
+              </label>
+              <select class="form-control select2-multi-add" name="jurusan[]" multiple="multiple">
+                @foreach($jurusanData as $jurusan)
+                  <option value="{{$jurusan->jurusan_id}}" class="form-control">{{$jurusan->jurusan_nama}}</option>
+                @endforeach
+              </select>
+
+
+
+
+
+
+              <label for="perusahaan_logo" style="font-weight: bold;">
                 Logo Perusahaan<i style="color: red;">*</i>
               </label>
               <input name="perusahaan_logo" type="file" class="form-control" required="" style="font-weight: bold;">
 
-              <label for="inputNamaJurusan" style="font-weight: bold;">
+              <label for="perusahaan_gambar1" style="font-weight: bold;">
                 Gambar Perusahaan (1)<i style="color: red;">*</i>
               </label>
               <input name="perusahaan_gambar1" type="file" class="form-control" required="" style="font-weight: bold;">
 
-              <label for="inputNamaJurusan" style="font-weight: bold;">
+              <label for="perusahaan_gambar2" style="font-weight: bold;">
                 Gambar Perusahaan (2)<i style="color: red;">*</i>
               </label>
               <input name="perusahaan_gambar2" type="file" class="form-control" required="" style="font-weight: bold;">
 
-              <label for="inputNamaJurusan" style="font-weight: bold;">
+              <label for="perusahaan_gambar3" style="font-weight: bold;">
                 Gambar Perusahaan (3)<i style="color: red;">*</i>
               </label>
               <input name="perusahaan_gambar3" type="file" class="form-control" required="" style="font-weight: bold;">
@@ -142,11 +276,11 @@
 <!-- End of Modal Add -->
 
 <!-- Modal Edit -->
-  @foreach($data as $perusahaan)
-    <div class="modal fade" id="editData{{$perusahaan->perusahaan_id}}" role="dialog" aria-labelledby="deleteData" aria-hidden="true" >
+  {{-- @foreach($data as $perusahaan)
+    <div class="modal fade" id="editData{{$perusahaan->perusahaan_id}}" role="dialog" aria-labelledby="editData" aria-hidden="true" >
       <div class="modal-dialog" role="document">
         <div class="modal-content"> 
-          <form action="{{ route('perusahaan.update', $perusahaan->perusahaan_id) }}" method="post">
+          <form action="{{ route('perusahaan.update', $perusahaan->perusahaan_id) }}" method="post" enctype="multipart/form-data" >
             <div class="modal-header">
               <h5 class="modal-title" id="DataLabel"><i class="far fa-edit"></i> &nbsp; Edit Data Jurusan</h5>
             </div>
@@ -157,7 +291,8 @@
               <div class="form-group">
                 <label for="inputNamaJurusan" style="font-weight: bold;">
                 Nama Perusahaan<i style="color: red;">*</i>
-              </label>
+                </label>
+              </div>
               <input name="perusahaan_nama" type="text" class="form-control" id="inputNamaPerusahaan" value="{{ $perusahaan->perusahaan_nama }}" required="" style="font-weight: bold;">
 
               <label for="inputNamaJurusan" style="font-weight: bold;">
@@ -175,12 +310,71 @@
               </label>
               <input name="perusahaan_telepon" type="text" class="form-control" id="inputTeleponPerusahaan" value="{{ $perusahaan->perusahaan_telepon }}" required="" style="font-weight: bold;">
 
-              <label for="inputNamaJurusan" style="font-weight: bold;">
-                Logo Perusahaan<i style="color: red;">*</i>
+              <label for="inputJurusan" style="font-weight: bold;">
+                Jurusan<i style="color: red;">*</i>
               </label>
-              <input type="file" class="form-control" name="perusahaan_logo">
-              <img src="perusahaan/fetch_logo/{{ $perusahaan->perusahaan_id }}"  class="img-thumbnail" width="200" />   
-               <input type="file" name="hidden_image" value="{{ $perusahaan->perusahaan_logo }}">      
+              <select id="selectJurusan{{$perusahaan->perusahaan_id}}" class="form-control select2-multi-edit" name="jurusan[]" multiple="multiple">
+                @foreach($perusahaan->jurusan as $jurusanSelected)
+                    <option value="{{ $jurusanAll->jurusan_id }}" {{ $jurusanAll->jurusan_id == $jurusanSelected->jurusan_id ? 'selected="selected"' : '' }} >{{ $jurusanAll->jurusan_nama }}</option>
+                    <option selected="" value="{{$jurusanSelected->jurusan_id}}" class="form-control">{{$jurusanSelected->jurusan_nama}}</option>
+                  @endforeach
+                @foreach($jurusanData as $jurusan)
+                  @foreach($perusahaan->jurusan as $jurusanSelected)
+                    <option value="{{$jurusan->jurusan_id}}" class="form-control">{{$jurusan->jurusan_nama}}</option>
+                    <option value="{{ $jurusanAll->jurusan_id }}" {{ $jurusanAll->jurusan_id == $jurusanSelected->jurusan_id ? 'selected="selected"' : '' }} >{{ $jurusanAll->jurusan_nama }}</option>
+                  @endforeach
+                  <option value="{{$jurusan->jurusan_id}}" class="form-control">{{$jurusan->jurusan_nama}}</option>
+                @endforeach
+              </select>
+
+              <div class="form-group">
+                <label for="inputNamaJurusan" style="font-weight: bold;">
+                Logo Perusahaan<i style="color: red;">*</i>
+                 </label>
+                <input name="perusahaan_logo" type="file" class="form-control" value="{{ url('/image/'.$perusahaan->perusahaan_logo) }}">
+                <input name="hidden_image1" type="hidden" class="form-control" value="{{$perusahaan->perusahaan_logo}}">
+              </div>
+
+              <div class="form-group">
+                  <img src="{{ url('image/'.$perusahaan->perusahaan_logo) }}" width="150px">
+              </div> 
+
+              <div class="form-group">
+                <label for="inputNamaJurusan" style="font-weight: bold;">
+                Gambar Perusahaan 1<i style="color: red;">*</i>
+                 </label>
+                <input name="perusahaan_gambar1" type="file" class="form-control" value="{{ url('/image/'.$perusahaan->perusahaan_gambar1) }}">
+                <input name="hidden_image2" type="hidden" class="form-control" value="{{$perusahaan->perusahaan_gambar1}}">
+              </div>
+
+              <div class="form-group">
+                  <img src="{{ url('image/'.$perusahaan->perusahaan_gambar1) }}" width="150px">
+              </div> 
+
+              <div class="form-group">
+                <label for="inputNamaJurusan" style="font-weight: bold;">
+                Gambar Perusahaan 2<i style="color: red;">*</i>
+                 </label>
+                <input name="perusahaan_gambar2" type="file" class="form-control" value="{{ url('/image/'.$perusahaan->perusahaan_gambar2) }}">
+                <input name="hidden_image3" type="hidden" class="form-control" value="{{$perusahaan->perusahaan_gambar2}}">
+              </div>
+
+              <div class="form-group">
+                  <img src="{{ url('image/'.$perusahaan->perusahaan_gambar2) }}" width="150px">
+              </div> 
+
+              <div class="form-group">
+                <label for="inputNamaJurusan" style="font-weight: bold;">
+                Gambar Perusahaan 3<i style="color: red;">*</i>
+                 </label>
+                <input name="perusahaan_gambar3" type="file" class="form-control" value="{{ url('/image/'.$perusahaan->perusahaan_gambar3) }}">
+                <input name="hidden_image4" type="hidden" class="form-control" value="{{$perusahaan->perusahaan_gambar1}}">
+              </div>
+
+              <div class="form-group">
+                  <img src="{{ url('image/'.$perusahaan->perusahaan_gambar3) }}" width="150px">
+              </div> 
+
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -194,7 +388,52 @@
         </div>
       </div>
     </div>
-  @endforeach
+
+  @endforeach --}}
 <!-- End of Modal Edit-->
 
-@endsection()
+<!-- Modal DELETE -->
+ @foreach($data as $perusahaan)
+ 
+     <div class="modal fade" id="deleteData{{$perusahaan->perusahaan_id}}" role="dialog" aria-labelledby="deleteData" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content"> 
+          <form action="{{route('perusahaan.destroy', $perusahaan->perusahaan_id)}}" method="post">
+            <div class="modal-header">
+              <h5 class="modal-title" id="DataLabel"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> &nbsp; Konfirmasi Hapus</h5>
+            </div>
+            <hr>
+            <div class="modal-body">
+              <div class="form-group">
+                <h5>
+                  <br>
+                    Hapus <b>{{$perusahaan->perusahaan_nama}}</b> ? 
+                </h5>
+              </div>
+            </div>
+            <div class="modal-footer">
+              @csrf
+              @method('DELETE')
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  @endforeach
+<!-- End of Modal Delete-->
+
+@endsection
+
+@section('scripts')
+
+  {!! Html::script('js/select2.min.js') !!}
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.select2-multi-add').select2();
+    });
+  </script>
+
+@endsection

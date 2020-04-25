@@ -13,19 +13,21 @@ class JurusanPerusahaanSeeder extends Seeder
     public function run()
     {
         $listJurPer = [
-            ['perusahaan_perusahaan_id' => '1',    'jurusan_jurusan_id' => '1'],
-            ['perusahaan_perusahaan_id' => '1',   	'jurusan_jurusan_id' => '2'],
-            ['perusahaan_perusahaan_id' => '1',	'jurusan_jurusan_id' => '3'],
-            ['perusahaan_perusahaan_id' => '1',    'jurusan_jurusan_id' => '4'],
-            ['perusahaan_perusahaan_id' => '1',   	'jurusan_jurusan_id' => '5'],
+            ['jp_perusahaan' => '1',    'jp_jurusan' => '1'],
+            ['jp_perusahaan' => '1',   	'jp_jurusan' => '2'],
+            ['jp_perusahaan' => '1',	'jp_jurusan' => '3'],
+            ['jp_perusahaan' => '1',    'jp_jurusan' => '4'],
+            ['jp_perusahaan' => '1',   	'jp_jurusan' => '5'],
 
-            ['perusahaan_perusahaan_id' => '2',	'jurusan_jurusan_id' => '6'],
-            ['perusahaan_perusahaan_id' => '2',    'jurusan_jurusan_id' => '10'],
+            ['jp_perusahaan' => '2',	'jp_jurusan' => '6'],
+            ['jp_perusahaan' => '2',    'jp_jurusan' => '10'],
+            ['jp_perusahaan' => '2',    'jp_jurusan' => '13'],
 
-            ['perusahaan_perusahaan_id' => '3',    'jurusan_jurusan_id' => '11'],
-            ['perusahaan_perusahaan_id' => '3',   	'jurusan_jurusan_id' => '12'],
-            ['perusahaan_perusahaan_id' => '3',	'jurusan_jurusan_id' => '5'],
-            ['perusahaan_perusahaan_id' => '3',    'jurusan_jurusan_id' => '9']
+            ['jp_perusahaan' => '3',    'jp_jurusan' => '11'],
+            ['jp_perusahaan' => '3',   	'jp_jurusan' => '12'],
+            ['jp_perusahaan' => '3',	'jp_jurusan' => '5'],
+            ['jp_perusahaan' => '3',    'jp_jurusan' => '13'],
+            ['jp_perusahaan' => '3',    'jp_jurusan' => '9']
         ];
 
         foreach ($listJurPer as $jurper) {

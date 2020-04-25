@@ -22,7 +22,7 @@ Route::get('perusahaan/fetch_logo/{id}', 'PerusahaanController@fetch_logo');
 
 
 Route::resource('jurusan', 'JurusanController');
-
+Route::resource('berita', 'BeritaController');
 Route::resource('ulasan', 'UlasanController');
 Auth::routes();
 

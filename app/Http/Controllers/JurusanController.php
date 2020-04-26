@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Jurusan;
 use App\Perusahaan;
 use Illuminate\Http\Request;
+use App\Exports\JurusanExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 use Auth;
 
@@ -122,5 +124,9 @@ class JurusanController extends Controller
         {
             return response()->json('successfully');
         }
+    }
+    public function export_excel()
+    {
+        return Excel::download(new JurusanExport, 'Jurusan-'.date("Y-M-d").'.xlsx');
     }
 }

@@ -67,7 +67,7 @@
             <i class="fa fa-plus"></i> Tambah Perusahaan
           </button>
           &nbsp;
-          <a class="btn btn-success" href="{{-- route('perusahaan.export') --}}"><i class="fa fa-print"></i> Export Data</a>
+          <a class="btn btn-success" href="export_perusahaan"><i class="fa fa-print"></i> Export Data</a>
         </div>
         <div class="card-body">
           <div class="table-responsive">

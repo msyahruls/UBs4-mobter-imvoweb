@@ -42,7 +42,7 @@
             <i class="fa fa-plus"></i> Tambah Ulasan
           </button>
           &nbsp;
-          <a class="btn btn-success" href="{{-- route('ulasan.export') --}}"><i class="fa fa-print"></i> Export Data</a>
+          <a class="btn btn-success" href="export_ulasan"><i class="fa fa-print"></i> Export Data</a>
         </div>
         <div class="card-body">
           <div class="table-responsive">

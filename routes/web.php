@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Route::resource('perusahaan', 'PerusahaanController');
@@ -23,5 +23,11 @@ Route::resource('berita', 'BeritaController');
 Route::resource('ulasan', 'UlasanController');
 Route::resource('dashboard', 'DashboardController');
 
+Route::get('export_jurusan', 'JurusanController@export_excel');
+Route::get('export_perusahaan', 'PerusahaanController@export_excel');
+Route::get('export_ulasan', 'UlasanController@export_excel');
+Route::get('export_berita', 'BeritaController@export_excel');
+
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'DashboardController@index')->name('home');
+

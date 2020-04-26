@@ -5,9 +5,9 @@
       <div class="d-flex flex-wrap align-items-stretch">
         <div class="col-lg-4 col-md-6 col-12 order-lg-1 min-vh-100 order-2 bg-white">
           <div class="p-4 m-3">
-            <h4 class="text-dark font-weight-normal">Welcome to 
+            <h4 class="text-dark font-weight-normal">
               <a href="{{ url('') }}">
-                <span class="font-weight-bold">{{ config('app.name', 'Cafe.in') }}</span>
+                <span class="font-weight-bold">Informasi Magang Vokasi</span>
               </a>
             </h4>
             <p class="text-muted">Before you get started, you must login or register if you don't already have an account.</p>
@@ -63,20 +63,21 @@
                 Don't have an account? <a href="{{ route('register') }}">Create new one</a>
               </div>
             </form>
-
+            <img src="{{asset('assets/img/brone.png')}}" width="50px" style="margin-top: 10px;">
+            <img src="{{asset('assets/img/vok.png')}}" width="50px" style="margin-top: 10px; margin-left: 170px;">
+            <img src="{{asset('assets/img/ub.png')}}" width="50px" style="margin-top: 10px;">
             <div class="text-center mt-5 text-small">
               Copyright &copy; {{ config('app.name', 'Cafe.in') }}. Made with 💙 by Stisla
             </div>
           </div>
         </div>
-        <div class="col-lg-8 col-12 order-lg-2 order-1 min-vh-100 background-walk-y position-relative overlay-gradient-bottom" data-background="../assets/img/unsplash/913081.jpg">
+        <div class="col-lg-8 col-12 order-lg-2 order-1 min-vh-100 background-walk-y position-relative overlay-gradient-bottom" data-background="../assets/img/unsplash/ub.jpg">
           <div class="absolute-bottom-left index-2">
             <div class="text-light p-5 pb-2">
               <div class="mb-5 pb-3">
                 <h1 class="mb-2 display-4 font-weight-bold">Howdy Dodie</h1>
-                <h5 class="font-weight-normal text-muted-transparent">San Francisco, California</h5>
+                <h5 class="font-weight-normal text-muted-transparent">Universitas Brawijaya, Malang</h5>
               </div>
-              Photo by <a class="text-light bb" target="_blank" href="#">Don't know</a> on <a class="text-light bb" target="_blank" href="https://wallpaperaccess.com/san-francisco-phone">WallpaperAccess</a>
             </div>
           </div>
         </div>

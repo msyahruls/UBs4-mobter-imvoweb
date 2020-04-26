@@ -163,6 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         Intervention\Image\ImageServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -230,6 +231,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Image' => Intervention\Image\Facades\Image::class,
+        'Html' => Collective\Html\HtmlFacade::class,
+        'Form' => Collective\Html\FormFacade::class,
 
     ],
 

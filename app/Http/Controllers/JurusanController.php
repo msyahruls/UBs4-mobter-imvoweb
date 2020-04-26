@@ -54,7 +54,8 @@ class JurusanController extends Controller
 
         if (Auth::user())
         {
-            return redirect('/jurusan')->with('i', (request()->input('page', 1) - 1) * 10);
+            return redirect()->route('jurusan.index')
+                ->with('success','Data Added successfully');
         }
         else
         {
@@ -92,7 +93,8 @@ class JurusanController extends Controller
 
         if (Auth::user())
         {
-            return redirect('/jurusan')->with('i', (request()->input('page', 1) - 1) * 10);
+            return redirect()->route('jurusan.index')
+                ->with('success','Data Updated successfully');
         }
         else
         {
@@ -109,10 +111,12 @@ class JurusanController extends Controller
     public function destroy($id)
     {
         $jurusan = Jurusan::findOrFail($id);
+        $jurusan->perusahaan()->detach();
         $jurusan->delete();
         if (Auth::user())
         {
-            return redirect('/jurusan')->with('i', (request()->input('page', 1) - 1) * 10);
+            return redirect()->route('jurusan.index')
+                ->with('success','Data Deleted successfully');
         }
         else
         {

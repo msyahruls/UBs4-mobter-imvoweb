@@ -20,10 +20,18 @@ class UlasanController extends Controller
     {
         $jurusan = Jurusan::all();
         $perusahaan = Perusahaan::all();
-        $data = Ulasan::when($request->search, function($query) use($request){
-            $query->where('ulasan_nama_mhs', 'LIKE', '%'.$request->search.'%');})
-            ->orderBy('ulasan_nama_mhs','asc')
-            ->paginate(10);
+        $data = Ulasan::when($request->search, function($query) use($request)
+        {
+          $query->where('ulasan_nama_mhs', 'LIKE', '%'.$request->search.'%')
+                ->orWhere('jurusan_nama', 'LIKE', "%{$request->search}%")
+                ->orWhere('ulasan_angkatan', 'LIKE', "%{$request->search}%")
+                ->orWhere('perusahaan_nama', 'LIKE', "%{$request->search}%")
+                ->orWhere('ulasan_periode', 'LIKE', "%{$request->search}%");
+        })
+        ->join('Jurusan', 'Jurusan.jurusan_id', '=', 'Ulasan.ulasan_jurusan_id')
+        ->join('Perusahaan', 'Perusahaan.perusahaan_id', '=', 'Ulasan.ulasan_perusahaan_id')
+        ->orderBy('ulasan_nama_mhs','asc')
+        ->paginate(10);
             
         if (Auth::user())
         {
@@ -34,16 +42,6 @@ class UlasanController extends Controller
         {
             return response()->json($data);
         }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -67,7 +65,8 @@ class UlasanController extends Controller
 
         if (Auth::user())
         {
-            return redirect('/ulasan')->with('i', (request()->input('page', 1) - 1) * 10);
+            return redirect()->route('ulasan.index')
+                ->with('success','Data Created successfully');
         }
         else
         {
@@ -86,17 +85,6 @@ class UlasanController extends Controller
         $data = Ulasan::with('jurusan')
             ->where('ulasan_id', $ulasan->ulasan_id)->get();
         return response()->json($data);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -121,7 +109,8 @@ class UlasanController extends Controller
 
         if (Auth::user())
         {
-            return redirect('/ulasan')->with('i', (request()->input('page', 1) - 1) * 10);
+            return redirect()->route('ulasan.index')
+                ->with('success','Data Updated successfully');
         }
         else
         {
@@ -141,7 +130,8 @@ class UlasanController extends Controller
         $ulasan->delete();
         if (Auth::user())
         {
-            return redirect('/ulasan')->with('i', (request()->input('page', 1) - 1) * 10);
+            return redirect()->route('ulasan.index')
+                ->with('success','Data Deleted successfully');
         }
         else
         {

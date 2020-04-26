@@ -52,7 +52,7 @@ class BeritaController extends Controller
         $nama_file = time()."_".$file->getClientOriginalName();
      
         // isi dengan nama folder tempat kemana file diupload
-        $tujuan_upload = 'image';
+        $tujuan_upload = 'images/berita';
         $file->move($tujuan_upload,$nama_file);
      
      
@@ -64,7 +64,8 @@ class BeritaController extends Controller
 
         if (Auth::user())
         {
-            return redirect('/berita')->with('i', (request()->input('page', 1) - 1) * 10);
+            return redirect()->route('berita.index')
+                ->with('success','Data Created successfully');
         }
         else
         {
@@ -103,7 +104,7 @@ class BeritaController extends Controller
                 'berita_gambar' => 'required|image|max:2048',
             ]);
                 $nama_file = time()."_".$file->getClientOriginalName();
-                $tujuan_upload = 'image';
+                $tujuan_upload = 'images/berita';
                 $file->move($tujuan_upload,$nama_file);
         }else{
             $request->validate([
@@ -121,7 +122,8 @@ class BeritaController extends Controller
 
         if (Auth::user())
         {
-            return redirect('/berita')->with('i', (request()->input('page', 1) - 1) * 10);
+            return redirect()->route('berita.index')
+                ->with('success','Data Updated successfully');
         }
         else
         {
@@ -141,7 +143,8 @@ class BeritaController extends Controller
         $berita->delete();
         if (Auth::user())
         {
-            return redirect('/berita')->with('i', (request()->input('page', 1) - 1) * 10);
+            return redirect()->route('berita.index')
+                ->with('success','Data Deleted successfully');
         }
         else
         {

@@ -12,6 +12,8 @@
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
+
+  <!-- Actually this css for select2.js -->
   @yield('stylesheets')
 </head>
 
@@ -53,6 +55,9 @@
 
   <!-- Page Specific JS File -->
   <script src="{{ asset('assets/js/page/index') }}.js"></script>
+
+  <!-- Actually this script for select2.js-->
   @yield('scripts')
+
 </body>
 </html>

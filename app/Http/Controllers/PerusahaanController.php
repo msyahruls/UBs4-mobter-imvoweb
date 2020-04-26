@@ -20,12 +20,13 @@ class PerusahaanController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Perusahaan::when($request->search, function ($query) use ($request) 
+        $data = Perusahaan::whereHas('jurusan', function ($query) use ($request)
         {
           $query->where('perusahaan_id', 'LIKE', "%{$request->search}%")
                 ->orWhere('perusahaan_nama', 'LIKE', "%{$request->search}%")
                 ->orWhere('perusahaan_alamat', 'LIKE', "%{$request->search}%")
                 ->orWhere('perusahaan_email', 'LIKE', "%{$request->search}%")
+                ->orWhere('jurusan_nama', 'LIKE', "%{$request->search}%")
                 ->orWhere('perusahaan_telepon', 'LIKE', "%{$request->search}%");
         })
         ->with('jurusan')
@@ -52,7 +53,6 @@ class PerusahaanController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
         $this->validate($request, [
             'perusahaan_nama'=>'required',
             'perusahaan_alamat' => 'required',
@@ -64,48 +64,31 @@ class PerusahaanController extends Controller
             'perusahaan_gambar3' => 'required|image|max:2048'
         ]);
 
+        //LOGO STORE
         $file1 = $request->file('perusahaan_logo');
-     
-        $nama_file1 = time()."_".$file1->getClientOriginalName();
-     
+        $nama_file1 = time()."_".$file1->getClientOriginalName();    
         // isi dengan nama folder tempat kemana file diupload
-        $tujuan_upload1 = 'image';
+        $tujuan_upload1 = 'images/perusahaan';
         $file1->move($tujuan_upload1,$nama_file1);
 
         $file2 = $request->file('perusahaan_gambar1');
-     
         $nama_file2 = time()."_".$file2->getClientOriginalName();
-     
         // isi dengan nama folder tempat kemana file diupload
-        $tujuan_upload2 = 'image';
+        $tujuan_upload2 = 'images/perusahaan';
         $file2->move($tujuan_upload2,$nama_file2);
 
-        $file3 = $request->file('perusahaan_gambar2');
-     
+        $file3 = $request->file('perusahaan_gambar2');  
         $nama_file3 = time()."_".$file3->getClientOriginalName();
-     
         // isi dengan nama folder tempat kemana file diupload
-        $tujuan_upload3 = 'image';
+        $tujuan_upload3 = 'images/perusahaan';
         $file3->move($tujuan_upload3,$nama_file3);
 
         $file4 = $request->file('perusahaan_gambar3');
-     
         $nama_file4 = time()."_".$file4->getClientOriginalName();
-     
         // isi dengan nama folder tempat kemana file diupload
-        $tujuan_upload4 = 'image';
+        $tujuan_upload4 = 'images/perusahaan';
         $file4->move($tujuan_upload4,$nama_file4);
 
-        // Perusahaan::create([
-        //     'perusahaan_nama'   => $request->perusahaan_nama,
-        //     'perusahaan_alamat' => $request->perusahaan_alamat,
-        //     'perusahaan_email'  => $request->perusahaan_email,
-        //     'perusahaan_telepon'=> $request->perusahaan_telepon,
-        //     'perusahaan_logo'   => $nama_file1,
-        //     'perusahaan_gambar1'=> $nama_file2,
-        //     'perusahaan_gambar2'=> $nama_file3,
-        //     'perusahaan_gambar3'=> $nama_file4
-        // ]);
         $perusahaan = new Perusahaan;
 
         $perusahaan->perusahaan_nama    = $request->perusahaan_nama;
@@ -131,19 +114,6 @@ class PerusahaanController extends Controller
             return response()->json('successfully');
         }
     }
-
-    // function fetch_logo($image_id)
-    // {
-    //     $image = Perusahaan::findOrFail($image_id);
-
-    //     $image_file = Image::make($image->perusahaan_logo);
-
-    //     $response = Response::make($image_file->encode('jpeg'));
-
-    //     $response->header('Content-Type', 'image/jpeg');
-
-    //     return $response;
-    // }
 
     /**
      * Display the specified resource.
@@ -197,7 +167,7 @@ class PerusahaanController extends Controller
                 'perusahaan_logo' => 'required|image|max:2048',
             ]);
                 $nama_file1 = time()."_".$file1->getClientOriginalName();
-                $tujuan_upload1 = 'image';
+                $tujuan_upload1 = 'images/perusahaan';
                 $file1->move($tujuan_upload1,$nama_file1);
         }else{
             $request->validate([
@@ -213,7 +183,7 @@ class PerusahaanController extends Controller
                 'perusahaan_gambar1' => 'required|image|max:2048',
             ]);
                 $nama_file2 = time()."_".$file2->getClientOriginalName();
-                $tujuan_upload2 = 'image';
+                $tujuan_upload2 = 'images/perusahaan';
                 $file2->move($tujuan_upload2,$nama_file2);
         }else{
             $request->validate([
@@ -229,7 +199,7 @@ class PerusahaanController extends Controller
                 'perusahaan_gambar2' => 'required|image|max:2048',
             ]);
                 $nama_file3 = time()."_".$file3->getClientOriginalName();
-                $tujuan_upload3 = 'image';
+                $tujuan_upload3 = 'images/perusahaan';
                 $file3->move($tujuan_upload3,$nama_file3);
         }else{
             $request->validate([
@@ -245,7 +215,7 @@ class PerusahaanController extends Controller
                 'perusahaan_gambar3' => 'required|image|max:2048',
             ]);
                 $nama_file4 = time()."_".$file4->getClientOriginalName();
-                $tujuan_upload4 = 'image';
+                $tujuan_upload4 = 'images/perusahaan';
                 $file4->move($tujuan_upload4,$nama_file4);
         }else{
             $request->validate([
@@ -255,18 +225,6 @@ class PerusahaanController extends Controller
             'perusahaan_telepon' => 'required',
             ]);
         }
-
-        // $form_data = array(
-        //     'perusahaan_nama' => $request->perusahaan_nama,
-        //     'perusahaan_alamat' => $request->perusahaan_alamat,
-        //     'perusahaan_email' => $request->perusahaan_email,
-        //     'perusahaan_telepon' => $request->perusahaan_telepon,
-        //     'perusahaan_logo' => $nama_file1,
-        //     'perusahaan_gambar1' => $nama_file2,
-        //     'perusahaan_gambar2' => $nama_file3,
-        //     'perusahaan_gambar3' => $nama_file4
-        // );
-        // Perusahaan::where('perusahaan_id',$id)->update($form_data);
 
         $perusahaan = Perusahaan::find($id);
 
@@ -281,9 +239,12 @@ class PerusahaanController extends Controller
 
         $perusahaan->save();
 
-        if (isset($request->jurusan)){
+        if (isset($request->jurusan))
+        {
             $perusahaan->jurusan()->sync($request->jurusan);
-        }else{
+        }
+        else
+        {
             $perusahaan->jurusan()->sync(array());
         }
 

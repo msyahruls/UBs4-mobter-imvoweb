@@ -52,21 +52,21 @@
                   <th scope="col">#</th>
                   <th scope="col">Judul</th>
                   <th scope="col">Link</th>
-                  <th scope="col">Gambar</th>
-                  <th scope="col">Action</th>
+                  <th scope="col"><center>Gambar</center></th>
+                  <th scope="col"><center>Action</center></th>
                 </tr>
               </thead>
               <tbody id="jurusans-list" name="jurusans-list">
                 @forelse($data as $berita)
                 <tr>
-                  <td>{{ ++$i }}</td>
+                  <td align="center">{{ ++$i }}</td>
                   <td>{{ $berita->berita_judul }}</td>
                   <td>{{ $berita->berita_link }}</td>
-                  <td><img width="120px" src="{{ url('/image/'.$berita->berita_gambar) }}"></td>
-                  <td>
+                  <td align="center"><img width="120px" src="{{ url('/images/berita/'.$berita->berita_gambar) }}"></td>
+                  <td align="center">
                     <div class="btn-group">
                       <button class="btn btn-sm btn-warning view_modal color" data-toggle="modal" data-target="#editData{{$berita->berita_id}}"><i class="fas fa-pen"></i></button>
-                      <a class="btn btn-sm btn-info color open_modal" href="{{ route('berita.show', $berita->berita_id) }}"><i class="fas fa-eye"></i></a>
+                      <a style="background-color: #c0c0c0; border-color: #c0c0c0;" class="btn btn-sm btn-secondary color open_modal" href="{{ route('berita.show', $berita->berita_id) }}"><i class="fas fa-list"></i></i></a>
                       <button class="btn btn-sm btn-danger view_modal color" data-toggle="modal" data-target="#deleteData{{$berita->berita_id}}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                     </div>   
                   </td>
@@ -151,17 +151,17 @@
               </div>
               <div class="form-group">
                 <label for="harga" class="control-label">Gambar</label>
-                <input name="berita_gambar" type="file" class="form-control" value="{{ url('/image/'.$berita->berita_gambar) }}">
+                <input name="berita_gambar" type="file" class="form-control" value="{{ url('/images/berita/'.$berita->berita_gambar) }}">
                 <input name="hidden_image" type="hidden" class="form-control" value="{{$berita->berita_gambar}}">
               </div>
 
               <div class="form-group">
-                  <img src="{{ url('image/'.$berita->berita_gambar) }}" width="150px">
+                  <img src="{{ url('/images/berita/'.$berita->berita_gambar) }}" width="150px">
               </div> 
 
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              <button style="background-color: #c0c0c0; border-color: #c0c0c0;" type="button" class="btn btn-secondary" data-dismiss="modal">
                 Batal
               </button>
               <button type="submit" class="btn btn-warning">
@@ -189,7 +189,7 @@
               <div class="form-group">
                 <h5>
                   <br>
-                    Hapus <b>{{$berita->berita_judul}}</b> ? 
+                    Yakin Ingin Menghapus <b>{{$berita->berita_judul}}</b> ? 
                 </h5>
               </div>
             </div>
@@ -197,7 +197,7 @@
               @csrf
               @method('DELETE')
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-              <button type="submit" class="btn btn-danger">Delete</button>
+              <button type="submit" class="btn btn-danger">Hapus</button>
             </div>
           </form>
         </div>

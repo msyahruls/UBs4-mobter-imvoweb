@@ -52,7 +52,7 @@ class BeritaController extends Controller
         $nama_file = time()."_".$file->getClientOriginalName();
      
         // isi dengan nama folder tempat kemana file diupload
-        $tujuan_upload = 'image';
+        $tujuan_upload = 'images/berita';
         $file->move($tujuan_upload,$nama_file);
      
      
@@ -104,7 +104,7 @@ class BeritaController extends Controller
                 'berita_gambar' => 'required|image|max:2048',
             ]);
                 $nama_file = time()."_".$file->getClientOriginalName();
-                $tujuan_upload = 'image';
+                $tujuan_upload = 'images/berita';
                 $file->move($tujuan_upload,$nama_file);
         }else{
             $request->validate([

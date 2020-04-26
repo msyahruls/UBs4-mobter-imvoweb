@@ -20,7 +20,7 @@ class CreateUlasanTable extends Migration
             $table->string('ulasan_angkatan');
             $table->bigInteger('ulasan_perusahaan_id')->unsigned()->nullable();
             $table->string('ulasan_periode');
-            $table->string('ulasan_testimoni');
+            $table->string('ulasan_testimoni', 1500);
             $table->timestamps();
 
             $table->foreign('ulasan_jurusan_id')->references('jurusan_id')->on('jurusan')->onDelete('cascade');

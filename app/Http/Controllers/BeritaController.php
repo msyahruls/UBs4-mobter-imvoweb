@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Berita;
 use Auth;
 use Illuminate\Http\Request;
+use App\Exports\BeritaExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BeritaController extends Controller
 {
@@ -150,5 +152,10 @@ class BeritaController extends Controller
         {
             return response()->json('successfully');
         }
+    }
+
+    public function export_excel()
+    {
+        return Excel::download(new BeritaExport, 'Berita-'.date("Y-M-d").'.xlsx');
     }
 }

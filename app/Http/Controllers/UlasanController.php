@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Jurusan;
 use App\Perusahaan;
 use App\Ulasan;
+use App\Exports\UlasanExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 use Auth;
 
@@ -138,4 +140,10 @@ class UlasanController extends Controller
             return response()->json('successfully');
         }
     }
+
+    public function export_excel()
+    {
+        return Excel::download(new UlasanExport, 'Ulasan-'.date("Y-M-d").'.xlsx');
+    }
+
 }

@@ -6,6 +6,8 @@ use App\Perusahaan;
 use App\Jurusan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use App\Exports\PerusahaanExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 use Auth;
 use Html;
@@ -279,5 +281,10 @@ class PerusahaanController extends Controller
         {
             return response()->json('successfully');
         }
+    }
+
+    public function export_excel()
+    {
+        return Excel::download(new PerusahaanExport, 'Perusahaan-'.date("Y-M-d").'.xlsx');
     }
 }

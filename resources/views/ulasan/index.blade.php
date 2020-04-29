@@ -206,7 +206,7 @@
               <label for="inputNamaJurusan" style="font-weight: bold;">
                 Testimoni<i style="color: red;">*</i>
               </label>
-              <input name="ulasan_testimoni" type="text" class="form-control" id="inputNamaPerusahaan" value="{{ $ulasan->ulasan_testimoni }}" required="" style="font-weight: bold;">
+              <textarea class="form-control" name="ulasan_testimoni" type="text" rows="10" cols="30" required="" value="{{ $ulasan->ulasan_testimoni }}" style="font-weight: bold;">{{ $ulasan->ulasan_testimoni }}</textarea>
               </div>
             </div>
             <div class="modal-footer">

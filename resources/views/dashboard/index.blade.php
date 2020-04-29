@@ -79,7 +79,7 @@
         <div class="card-header">
           <form method="GET" class="form-inline">
             <div class="form-group">
-              <input type="text" name="search" class="form-control" placeholder="Cari Jurusan & Perusahaan Magang" value="{{ request()->get('search') }}" style="width: 500px;">
+              <input type="text" name="search" class="form-control" placeholder="Cari Jurusan & Perusahaan Magang" value="{{ request()->get('search') }}" style="width: 300px;">
             </div>
             &nbsp;
             <div class="form-group">
@@ -96,12 +96,12 @@
           <div class="row">
             @foreach($data as $perusahaan)
             <div class="col-md-6">
-              <div class="card mb-3" style="max-width: 540px; background-color: #f2f2f2; max-height: 200px;">
+              <div class="card mb-3 shadow bg-white rounded" style="max-width: 540px; background-color: #f2f2f2; max-height: 200px;">
                 <div class="row no-gutters">
                   <div class="col-md-4">
                     <img src="{{ url('/images/perusahaan/'.$perusahaan->perusahaan_logo) }}" width="150" max-height="180">
                     <center>
-                        <span style="margin-top: 15px;">{{$perusahaan->perusahaan_email}}</span>
+                      <span style="margin-top: 15px;">{{$perusahaan->perusahaan_email}}</span>
                     </center>
                   </div>
                   <div class="col-md-8">
@@ -111,7 +111,7 @@
                       </h5>
                       <br>
                       <div style="margin-top: -38px;">
-                       {{$perusahaan->perusahaan_alamat}}
+                        {{$perusahaan->perusahaan_alamat}}
                       </div>
                       <br>
                       <style type="text/css">

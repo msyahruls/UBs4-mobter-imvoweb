@@ -120,7 +120,7 @@ class PerusahaanController extends Controller
         $perusahaan->save();
 
         $perusahaan->jurusan()->sync($request->jurusan, false);
-
+        
         if (Auth::user())
         {
             return redirect()->route('perusahaan.index')

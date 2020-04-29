@@ -17,13 +17,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('perusahaan', 'PerusahaanController');
-Route::get('perusahaan/fetch_logo/{id}', 'PerusahaanController@fetch_logo');
+//for ADMIN
+Route::group(['middleware' => 'auth'], function(){
+	Route::resource('perusahaan', 'PerusahaanController');
+	Route::resource('jurusan', 'JurusanController');
+	Route::resource('berita', 'BeritaController');
+	Route::resource('ulasan', 'UlasanController');
+});
 
+//for GUEST & API
+Route::resource('jurusan', 'JurusanController', ['only' => ['index','show']]);
+Route::resource('perusahaan', 'PerusahaanController', ['only' => ['index','show']]);
+Route::resource('berita', 'BeritaController', ['only' => ['index','show']]);
+Route::resource('ulasan', 'UlasanController', ['only' => ['index','show']]);
 
-Route::resource('jurusan', 'JurusanController');
-Route::resource('berita', 'BeritaController');
-Route::resource('ulasan', 'UlasanController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

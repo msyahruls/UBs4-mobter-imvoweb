@@ -1,7 +1,7 @@
       <div class="main-sidebar">
         <aside id="sidebar-wrapper">
           <div class="sidebar-brand">
-            <a href="#">{{ config('app.name', 'Laravel') }}</a>
+            <img src="{{asset('assets/img/ub.png')}}" width="30px"> <b>Informasi Magang Vokasi</b>
           </div>
           <div class="sidebar-brand sidebar-brand-sm">
             <a href="#">S.in</a>
@@ -18,4 +18,5 @@
               </li>
           </ul>
         </aside>
+        <img src="{{asset('assets/img/bro.jpg')}}" width="100px" style="margin-top: 220px; margin-left: 10px;">
       </div>

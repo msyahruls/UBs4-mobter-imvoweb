@@ -42,7 +42,7 @@
             <i class="fa fa-plus"></i> Tambah Berita
           </button>
           &nbsp;
-          <a class="btn btn-success" href="{{-- route('berita.export') --}}"><i class="fa fa-print"></i> Export Data</a>
+          <a class="btn btn-success" href="export_berita"><i class="fa fa-print"></i> Export Data</a>
         </div>
         <div class="card-body">
           <div class="table-responsive">

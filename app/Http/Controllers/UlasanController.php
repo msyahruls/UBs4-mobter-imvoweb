@@ -33,7 +33,8 @@ class UlasanController extends Controller
                     ->orWhere('perusahaan_nama', 'LIKE', "%{$request->search}%")
                     ->orWhere('ulasan_periode', 'LIKE', "%{$request->search}%");
             })
-            ->with('jurusan')->with('perusahaan')
+            ->join('Jurusan', 'Jurusan.jurusan_id', '=', 'Ulasan.ulasan_jurusan_id')
+            ->join('Perusahaan', 'Perusahaan.perusahaan_id', '=', 'Ulasan.ulasan_perusahaan_id')
             ->orderBy('ulasan_nama_mhs','asc')->paginate(10);
             return view('ulasan.index',compact('data','jurusan','perusahaan'))
                 ->with('i', (request()->input('page', 1) - 1) * 10);

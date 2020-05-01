@@ -14,11 +14,30 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
-Route::resource('perusahaan', 'PerusahaanController');
-Route::resource('jurusan', 'JurusanController');
-Auth::routes();
+//for ADMIN
+Route::group(['middleware' => 'auth'], function()
+{
+	Route::resource('dashboard', 'DashboardController');
+	Route::resource('jurusan', 'JurusanController');
+	Route::resource('perusahaan', 'PerusahaanController');
+	Route::resource('ulasan', 'UlasanController');
+	Route::resource('berita', 'BeritaController');
 
-Route::get('/home', 'HomeController@index')->name('home');
+	Route::get('export_jurusan', 'JurusanController@export_excel');
+	Route::get('export_perusahaan', 'PerusahaanController@export_excel');
+	Route::get('export_ulasan', 'UlasanController@export_excel');
+	Route::get('export_berita', 'BeritaController@export_excel');
+});
+
+//for GUEST & API
+Route::resource('i117v0jurx1usn1', 'JurusanController', ['only' => ['index','show']]);
+Route::resource('i117v0perx2ushn2', 'PerusahaanController', ['only' => ['index','show']]);
+Route::resource('i117v0berx3t3', 'BeritaController', ['only' => ['index','show']]);
+Route::resource('i117v0ulsx4n3', 'UlasanController', ['only' => ['index','show']]);
+
+Auth::routes();
+Route::get('/home', 'DashboardController@index')->name('home');
+

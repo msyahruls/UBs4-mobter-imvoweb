@@ -14,15 +14,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 //for ADMIN
-Route::group(['middleware' => 'auth'], function(){
-	Route::resource('perusahaan', 'PerusahaanController');
+Route::group(['middleware' => 'auth'], function()
+{
+	Route::resource('dashboard', 'DashboardController');
 	Route::resource('jurusan', 'JurusanController');
-	Route::resource('berita', 'BeritaController');
+	Route::resource('perusahaan', 'PerusahaanController');
 	Route::resource('ulasan', 'UlasanController');
+	Route::resource('berita', 'BeritaController');
+
+	Route::get('export_jurusan', 'JurusanController@export_excel');
+	Route::get('export_perusahaan', 'PerusahaanController@export_excel');
+	Route::get('export_ulasan', 'UlasanController@export_excel');
+	Route::get('export_berita', 'BeritaController@export_excel');
 });
 
 //for GUEST & API
@@ -32,5 +39,5 @@ Route::resource('berita', 'BeritaController', ['only' => ['index','show']]);
 Route::resource('ulasan', 'UlasanController', ['only' => ['index','show']]);
 
 Auth::routes();
+Route::get('/home', 'DashboardController@index')->name('home');
 
-Route::get('/home', 'HomeController@index')->name('home');

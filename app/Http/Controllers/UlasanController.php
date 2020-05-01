@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Jurusan;
 use App\Perusahaan;
 use App\Ulasan;
+use App\Exports\UlasanExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 use Auth;
 
@@ -20,10 +22,18 @@ class UlasanController extends Controller
     {
         $jurusan = Jurusan::all();
         $perusahaan = Perusahaan::all();
-        $data = Ulasan::when($request->search, function($query) use($request){
-            $query->where('ulasan_nama_mhs', 'LIKE', '%'.$request->search.'%');})
-            ->orderBy('ulasan_nama_mhs','asc')
-            ->paginate(10);
+        $data = Ulasan::when($request->search, function($query) use($request)
+        {
+          $query->where('ulasan_nama_mhs', 'LIKE', '%'.$request->search.'%')
+                ->orWhere('jurusan_nama', 'LIKE', "%{$request->search}%")
+                ->orWhere('ulasan_angkatan', 'LIKE', "%{$request->search}%")
+                ->orWhere('perusahaan_nama', 'LIKE', "%{$request->search}%")
+                ->orWhere('ulasan_periode', 'LIKE', "%{$request->search}%");
+        })
+        ->join('Jurusan', 'Jurusan.jurusan_id', '=', 'Ulasan.ulasan_jurusan_id')
+        ->join('Perusahaan', 'Perusahaan.perusahaan_id', '=', 'Ulasan.ulasan_perusahaan_id')
+        ->orderBy('ulasan_nama_mhs','asc')
+        ->paginate(10);
             
         if (Auth::user())
         {
@@ -130,4 +140,10 @@ class UlasanController extends Controller
             return response()->json('successfully');
         }
     }
+
+    public function export_excel()
+    {
+        return Excel::download(new UlasanExport, 'Ulasan-'.date("Y-M-d").'.xlsx');
+    }
+
 }

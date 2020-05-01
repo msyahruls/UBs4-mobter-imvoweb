@@ -42,39 +42,43 @@
             <i class="fa fa-plus"></i> Tambah Jurusan
           </button>
           &nbsp;
-          <a class="btn btn-success" href="{{-- route('jurusan.export') --}}"><i class="fa fa-print"></i> Export Data</a>
+          <a class="btn btn-success" href="export_jurusan"><i class="fa fa-print"></i> Export Data</a>
         </div>
         <div class="card-body">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nama</th>
-                <th scope="col">Jumlah Perusahaan</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody id="jurusans-list" name="jurusans-list">
-              @forelse($data as $jurusan)
-              <tr>
-                <td width="5%">{{ ++$i }}</td>
-                <td>{{ $jurusan->jurusan_nama }}</td>
-                <td width="20%">{{ $jurusan->perusahaan->count() }}</td>
-                <td width="15%">
-                  <div class="btn-group">
-                    <button class="btn btn-sm btn-warning view_modal color" data-toggle="modal" data-target="#editData{{$jurusan->jurusan_id}}"><i class="fas fa-pen"></i></button>
-                    <a class="btn btn-sm btn-info color open_modal" href="{{ route('jurusan.show', $jurusan->jurusan_id) }}"><i class="fas fa-eye"></i></a>
-                    <button class="btn btn-sm btn-danger view_modal color" data-toggle="modal" data-target="#deleteData{{$jurusan->jurusan_id}}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                  </div>   
-                </td>
-              </tr>
-              @empty
-              <tr>
-                <td colspan="3"><center>Data kosong</center></td>
-              </tr>
-              @endforelse
-            </tbody>
-          </table>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Nama</th>
+                  <th scope="col"><center>Jumlah Perusahaan</center></th>
+                  <th scope="col"><center>Action</center></th>
+                </tr>
+              </thead>
+              <tbody id="jurusans-list" name="jurusans-list">
+                @forelse($data as $jurusan)
+                <tr>
+                  <td width="5%" align="center">{{ ++$i }}</td>
+                  <td>{{ $jurusan->jurusan_nama }}</td>
+                  <td width="20%" align="center">{{ $jurusan->perusahaan->count() }}</td>
+                  <td width="15%" align="center">
+                    <div class="btn-group">
+                      <button class="btn btn-sm btn-warning view_modal color" data-toggle="modal" data-target="#editData{{$jurusan->jurusan_id}}"><i class="fas fa-pen"></i></button>
+                      <a class="btn btn-sm btn-secondary color open_modal" style="background-color: #c0c0c0; border-color: #c0c0c0;" href="{{ route('jurusan.show', $jurusan->jurusan_id) }}">
+                        <i class="fas fa-list"></i>
+                      </a>
+                      <button class="btn btn-sm btn-danger view_modal color" data-toggle="modal" data-target="#deleteData{{$jurusan->jurusan_id}}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                    </div>   
+                  </td>
+                </tr>
+                @empty
+                <tr>
+                  <td colspan="3"><center>Data kosong</center></td>
+                </tr>
+                @endforelse
+              </tbody>
+            </table>
+          </div>
         </div>
         <div class="card-footer text-right">
           <nav class="d-inline-block">
@@ -132,7 +136,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              <button style="background-color: #c0c0c0; border-color: #c0c0c0;" type="button" class="btn btn-secondary" data-dismiss="modal">
                 Batal
               </button>
               <button type="submit" class="btn btn-warning">
@@ -163,7 +167,7 @@
               <div class="form-group">
                 <h5>
                   <br>
-                    Hapus <b>{{$jurusan->jurusan_nama}}</b> ? 
+                    Yakin Ingin Menghapus <b>{{$jurusan->jurusan_nama}}</b> ? 
                 </h5>
               </div>
             </div>
@@ -171,7 +175,7 @@
               @csrf
               @method('DELETE')
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-              <button type="submit" class="btn btn-danger">Delete</button>
+              <button type="submit" class="btn btn-danger">Hapus</button>
             </div>
           </form>
         </div>
@@ -180,119 +184,4 @@
   @endforeach
 <!-- End of Modal DELETE--> 
 
-<!-- ORET ORET E IPUL a.k.a Bisu Gaming -->
-<!-- Passing BASE URL to AJAX -->
-    <!-- <script src="{{asset('js/jurusanAjaxScript.js')}}"></script> -->
-    <!-- <script type="text/javascript">
-      
-      // $(document).ready(function(){
-
-      //     //get base URL *********************
-      //     var url = $('#url').val();
-
-      //     //display modal form for creating new jurusan *********************
-      //     $('#btn_add').click(function(){
-      //         $('#btn-save').val("add");
-      //         $('#frmJurusan').trigger("reset");
-      //         $('#myModal').modal('show');
-      //     });
-
-      //     //display modal form for jurusan EDIT ***************************
-      //     $(document).on('click','.open_modal',function(){
-      //         var jurusan_id = $(this).val();
-      //         // console.log(jurusan_id);
-      //         // var coba="/jurusan/"+jurusan_id+"/edit";
-             
-      //         // Populate Data in Edit Modal Form
-      //             // url: url + '/' + jurusan_id,
-      //             // url: "{{ route('jurusan.show', $jurusan->jurusan_id) }}",
-      //         $.ajax({
-      //             type: "GET",
-      //             url: "/jurusan/"+jurusan_id,
-      //             success: function (data) {
-      //                 console.log(data);
-      //                 // console.log(url);
-      //                 $('#jurusan_id').val(data.jurusan_id);
-      //                 $('#jurusan_nama').val(data.jurusan_nama);
-      //                 // $('#price').val(data.price);
-      //                 $('#btn-save').val("update");
-      //                 $('#myModal').modal('show');
-      //             },
-      //             error: function (data) {
-      //                 console.log('Error:', data);
-      //             }
-      //         });
-      //     });
-
-      //     //create new jurusan / update existing jurusan ***************************
-      //     $("#btn-save").click(function (e) {
-      //         $.ajaxSetup({
-      //             headers: {
-      //                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-      //             }
-      //         })
-
-      //         e.preventDefault(); 
-      //         var formData = {
-      //             jurusan_nama: $('#jurusan_nama').val(),
-      //             // price: $('#price').val(),
-      //         }
-
-      //         //used to determine the http verb to use [add=POST], [update=PUT]
-      //         var state = $('#btn-save').val();
-      //         var type = "POST"; //for creating new resource
-      //         var jurusan_id = $('#jurusan_id').val();;
-      //         var my_url = url;
-      //         if (state == "update"){
-      //             type = "PUT"; //for updating existing resource
-      //             my_url += '/' + jurusan_id;
-      //         }
-      //         console.log(formData);
-      //         console.log(my_url);
-      //         $.ajax({
-      //             type: type,
-      //             url: my_url,
-      //             data: formData,
-      //             dataType: 'json',
-      //             success: function (data) {
-      //                 console.log(data);
-      //                 var jurusan = '<tr id="jurusan' + data.id + '"><td>' + data.id + '</td><td>' + data.name + '</td><td>' + data.price + '</td>';
-      //                 jurusan += '<td><button class="btn btn-warning btn-detail open_modal" value="' + data.id + '">Edit</button>';
-      //                 jurusan += ' <button class="btn btn-danger btn-delete delete-jurusan" value="' + data.id + '">Delete</button></td></tr>';
-      //                 if (state == "add"){ //if user added a new record
-      //                     $('#jurusans-list').append(jurusan);
-      //                 }else{ //if user updated an existing record
-      //                     $("#jurusan" + jurusan_id).replaceWith( jurusan );
-      //                 }
-      //                 $('#frmJurusan').trigger("reset");
-      //                 $('#myModal').modal('hide')
-      //             },
-      //             error: function (data) {
-      //                 console.log('Error:', data);
-      //             }
-      //         });
-      //     });
-
-      //     //delete jurusan and remove it from TABLE list ***************************
-      //     $(document).on('click','.delete-jurusan',function(){
-      //         var jurusan_id = $(this).val();
-      //          $.ajaxSetup({
-      //             headers: {
-      //                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-      //             }
-      //         })
-      //         $.ajax({
-      //             type: "DELETE",
-      //             url: url + '/' + jurusan_id,
-      //             success: function (data) {
-      //                 console.log(data);
-      //                 $("#jurusan" + jurusan_id).remove();
-      //             },
-      //             error: function (data) {
-      //                 console.log('Error:', data);
-      //             }
-      //         });
-      //     });  
-      // });
-    </script> -->
 @endsection()

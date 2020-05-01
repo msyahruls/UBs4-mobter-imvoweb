@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Berita;
 use Auth;
 use Illuminate\Http\Request;
+use App\Exports\BeritaExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BeritaController extends Controller
 {
@@ -52,7 +54,7 @@ class BeritaController extends Controller
         $nama_file = time()."_".$file->getClientOriginalName();
      
         // isi dengan nama folder tempat kemana file diupload
-        $tujuan_upload = 'image';
+        $tujuan_upload = 'images/berita';
         $file->move($tujuan_upload,$nama_file);
      
      
@@ -104,7 +106,7 @@ class BeritaController extends Controller
                 'berita_gambar' => 'required|image|max:2048',
             ]);
                 $nama_file = time()."_".$file->getClientOriginalName();
-                $tujuan_upload = 'image';
+                $tujuan_upload = 'images/berita';
                 $file->move($tujuan_upload,$nama_file);
         }else{
             $request->validate([
@@ -150,5 +152,10 @@ class BeritaController extends Controller
         {
             return response()->json('successfully');
         }
+    }
+
+    public function export_excel()
+    {
+        return Excel::download(new BeritaExport, 'Berita-'.date("Y-M-d").'.xlsx');
     }
 }

@@ -39,8 +39,6 @@
     </h1>
   </div>
 
-  
-
   <div class="section-body">
     <div class="col-12 col-md-12 col-lg-12">
       <div class="card">
@@ -66,7 +64,6 @@
         </div>
         <div class="card-body">
           <form action="{{ route('perusahaan.update', $perusahaan->perusahaan_id) }}" method="post" enctype="multipart/form-data" >
-            <hr>
             <div class="modal-body">
               @csrf 
               @method('PATCH')
@@ -113,43 +110,40 @@
                 <label for="inputNamaJurusan" style="font-weight: bold;">
                 Logo Perusahaan<i style="color: red;">*</i>
                  </label>
-                <input name="perusahaan_logo" type="file" class="form-control" value="{{ url('/image/'.$perusahaan->perusahaan_logo) }}">
+                <input name="perusahaan_logo" type="file" class="form-control" value="{{ url('/images/perusahaan/'.$perusahaan->perusahaan_logo) }}">
                 <input name="hidden_image1" type="hidden" class="form-control" value="{{$perusahaan->perusahaan_logo}}">
-                <img src="{{ url('image/'.$perusahaan->perusahaan_logo) }}" width="150px">
+                <img src="{{ url('/images/perusahaan/'.$perusahaan->perusahaan_logo) }}" width="150px">
               </div>
 
               <div class="form-group">
                 <label for="inputNamaJurusan" style="font-weight: bold;">
                 Gambar Perusahaan 1<i style="color: red;">*</i>
                  </label>
-                <input name="perusahaan_gambar1" type="file" class="form-control" value="{{ url('/image/'.$perusahaan->perusahaan_gambar1) }}">
+                <input name="perusahaan_gambar1" type="file" class="form-control" value="{{ url('/images/perusahaan/'.$perusahaan->perusahaan_gambar1) }}">
                 <input name="hidden_image2" type="hidden" class="form-control" value="{{$perusahaan->perusahaan_gambar1}}">
-                  <img src="{{ url('image/'.$perusahaan->perusahaan_gambar1) }}" width="150px">
+                  <img src="{{ url('/images/perusahaan/'.$perusahaan->perusahaan_gambar1) }}" width="150px">
               </div>
 
               <div class="form-group">
                 <label for="inputNamaJurusan" style="font-weight: bold;">
                 Gambar Perusahaan 2<i style="color: red;">*</i>
                  </label>
-                <input name="perusahaan_gambar2" type="file" class="form-control" value="{{ url('/image/'.$perusahaan->perusahaan_gambar2) }}">
+                <input name="perusahaan_gambar2" type="file" class="form-control" value="{{ url('/images/perusahaan/'.$perusahaan->perusahaan_gambar2) }}">
                 <input name="hidden_image3" type="hidden" class="form-control" value="{{$perusahaan->perusahaan_gambar2}}">
-                  <img src="{{ url('image/'.$perusahaan->perusahaan_gambar2) }}" width="150px">
+                  <img src="{{ url('/images/perusahaan/'.$perusahaan->perusahaan_gambar2) }}" width="150px">
               </div>
 
               <div class="form-group">
                 <label for="inputNamaJurusan" style="font-weight: bold;">
                 Gambar Perusahaan 3<i style="color: red;">*</i>
                  </label>
-                <input name="perusahaan_gambar3" type="file" class="form-control" value="{{ url('/image/'.$perusahaan->perusahaan_gambar3) }}">
+                <input name="perusahaan_gambar3" type="file" class="form-control" value="{{ url('/images/perusahaan/'.$perusahaan->perusahaan_gambar3) }}">
                 <input name="hidden_image4" type="hidden" class="form-control" value="{{$perusahaan->perusahaan_gambar1}}">
-                  <img src="{{ url('image/'.$perusahaan->perusahaan_gambar3) }}" width="150px">
+                  <img src="{{ url('/images/perusahaan/'.$perusahaan->perusahaan_gambar3) }}" width="150px">
               </div>
-
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                Batal
-              </button>
+              <a style="background-color: #c0c0c0; border-color: #c0c0c0;" class="btn btn-secondary" href="{{ route('perusahaan.index') }}">Batal</a>
               <button type="submit" class="btn btn-warning">
                 <b>Save</b>
               </button>

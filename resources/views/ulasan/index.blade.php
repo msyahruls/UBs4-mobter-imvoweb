@@ -39,10 +39,10 @@
         </div>
         <div class="card-header">
           <button id="btn_add" name="btn_add" type="button" data-toggle="modal" data-target="#addData" class="btn btn-primary pull-right">
-            <i class="fa fa-plus"></i> Tambah Jurusan
+            <i class="fa fa-plus"></i> Tambah Ulasan
           </button>
           &nbsp;
-          <a class="btn btn-success" href="{{-- route('ulasan.export') --}}"><i class="fa fa-print"></i> Export Data</a>
+          <a class="btn btn-success" href="export_ulasan"><i class="fa fa-print"></i> Export Data</a>
         </div>
         <div class="card-body">
           <div class="table-responsive">
@@ -52,34 +52,33 @@
                   <th scope="col">#</th>
                   <th scope="col">Nama Mahasiswa</th>
                   <th scope="col">Jurusan</th>
-                  <th scope="col">Angkatan Mahasiswa</th>
+                  <th scope="col"><center>Angkatan Mahasiswa</center></th>
                   <th scope="col">Perusahaan</th>
-                  <th scope="col">Periode</th>
-                  <th scope="col">Testimoni</th>
-                  <th scope="col">Action</th>
+                  <th scope="col">Periode Magang</th>
+                  <th scope="col"><center>Action</center></th>
                 </tr>
               </thead>
               <tbody id="ulasan-list" name="ulasan-list">
                 @forelse($data as $ulasan)
                 <tr>
-                  <td>{{ ++$i }}</td>
+                  <td align="center">{{ ++$i }}</td>
                   <td>{{ $ulasan->ulasan_nama_mhs }}</td>
                   <td>{{ $ulasan->Jurusan->jurusan_nama }}</td>
-                  <td>{{ $ulasan->ulasan_angkatan }}</td>
+                  <td align="center">{{ $ulasan->ulasan_angkatan }}</td>
                   <td>{{ $ulasan->Perusahaan->perusahaan_nama }}</td>
                   <td>{{ $ulasan->ulasan_periode}}</td>
-                  <td>{{ $ulasan->ulasan_testimoni }}</td>
-                  <td width="15%">
+                  <td width="15%" align="center">
                     <div class="btn-group">
                       <button class="btn btn-sm btn-warning view_modal color" data-toggle="modal" data-target="#editData{{$ulasan->ulasan_id}}"><i class="fas fa-pen"></i></button>
-                      <a class="btn btn-sm btn-info color open_modal" href="{{ route('ulasan.show', $ulasan->ulasan_id) }}"><i class="fas fa-eye"></i></a>
+                      <button class="btn btn-sm btn-info view_modal color" data-toggle="modal" data-target="#detailData{{$ulasan->ulasan_id}}"><i class="fas fa-eye"></i></button>
+                      <a style="background-color: #c0c0c0; border-color: #c0c0c0;" class="btn btn-sm btn-secondary color open_modal" href="{{ route('ulasan.show', $ulasan->ulasan_id) }}"><i class="fas fa-list"></i></a>
                       <button class="btn btn-sm btn-danger view_modal color" data-toggle="modal" data-target="#deleteData{{$ulasan->ulasan_id}}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                     </div>   
                   </td>
                 </tr>
                 @empty
                 <tr>
-                  <td colspan="3"><center>Data kosong</center></td>
+                  <td colspan="7"><center>Data kosong</center></td>
                 </tr>
                 @endforelse
               </tbody>
@@ -101,7 +100,7 @@
       <div class="modal-content"> 
         <form action="{{ route('ulasan.store') }}" method="POST">
           <div class="modal-header">
-            <h5 class="modal-title" id="DataLabel"><i class="far fa-plus-square"></i>&nbsp; Tambah Data Jurusan</h5>
+            <h5 class="modal-title" id="DataLabel"><i class="far fa-plus-square"></i>&nbsp; Tambah Data Ulasan</h5>
           </div>
           <hr>
           <div class="modal-body">
@@ -143,7 +142,7 @@
               <label for="inputNamaJurusan" style="font-weight: bold;">
                 Testimoni<i style="color: red;">*</i>
               </label>
-              <input name="ulasan_testimoni" type="text" class="form-control" id="inputEmailPerusahaan" placeholder="Masukkan Testimoni" required="" style="font-weight: bold;">
+              <textarea class="form-control" name="ulasan_testimoni" type="text" rows="10" cols="30" placeholder="Masukkan Testimoni" required="" style="font-weight: bold;"></textarea>
 
             </div>
           </div>
@@ -164,7 +163,7 @@
         <div class="modal-content"> 
           <form action="{{ route('ulasan.update', $ulasan->ulasan_id) }}" method="post">
             <div class="modal-header">
-              <h5 class="modal-title" id="DataLabel"><i class="far fa-edit"></i> &nbsp; Edit Data Jurusan</h5>
+              <h5 class="modal-title" id="DataLabel"><i class="far fa-edit"></i> &nbsp; Edit Data Ulasan</h5>
             </div>
             <hr>
             <div class="modal-body">
@@ -207,11 +206,11 @@
               <label for="inputNamaJurusan" style="font-weight: bold;">
                 Testimoni<i style="color: red;">*</i>
               </label>
-              <input name="ulasan_testimoni" type="text" class="form-control" id="inputNamaPerusahaan" value="{{ $ulasan->ulasan_testimoni }}" required="" style="font-weight: bold;">
+              <textarea class="form-control" name="ulasan_testimoni" type="text" rows="10" cols="30" required="" value="{{ $ulasan->ulasan_testimoni }}" style="font-weight: bold;">{{ $ulasan->ulasan_testimoni }}</textarea>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              <button style="background-color: #c0c0c0; border-color: #c0c0c0;" type="button" class="btn btn-secondary" data-dismiss="modal">
                 Batal
               </button>
               <button type="submit" class="btn btn-warning">
@@ -239,7 +238,7 @@
               <div class="form-group">
                 <h5>
                   <br>
-                    Hapus <b>{{$ulasan->ulasan_nama_mhs}}</b> ? 
+                    Yakin Ingin Menghapus <b>{{$ulasan->ulasan_nama_mhs}} - {{$ulasan->Jurusan->jurusan_nama}} </b> ? 
                 </h5>
               </div>
             </div>
@@ -247,7 +246,7 @@
               @csrf
               @method('DELETE')
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-              <button type="submit" class="btn btn-danger">Delete</button>
+              <button type="submit" class="btn btn-danger">Hapus</button>
             </div>
           </form>
         </div>
@@ -255,5 +254,42 @@
     </div>
   @endforeach
 <!-- End of Modal DELETE--> 
+
+<!-- Modal DETAIL DATA -->
+  @foreach($data as $ulasan)
+    <div class="modal fade" id="detailData{{$ulasan->ulasan_id}}" role="dialog" aria-labelledby="deleteData" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content"> 
+            <div class="modal-header">
+              <h5 class="modal-title" id="DataLabel"><i class="fa fa-eye" aria-hidden="true"></i> &nbsp; Detail Data </h5>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                  <label style="font-weight: bold; font-size: 11pt;">
+                    <i style="color: red;">*</i> Nama Mahasiswa : <br>
+                    <span style="margin-left: 12px; font-weight: normal;">{{$ulasan->ulasan_nama_mhs}} - {{$ulasan->Jurusan->jurusan_nama}} - {{$ulasan->ulasan_angkatan}} </span> 
+                  </label>
+                  <br>
+                  <label style="font-weight: bold; font-size: 11pt;">
+                    <i style="color: red;">*</i> Testimoni : <br>
+                  </label>
+                  <div class="card">
+                    <div class="card-body">
+                      <blockquote class="blockquote mb-0">
+                        <p>{{$ulasan->ulasan_testimoni}}</p>
+                        <footer class="blockquote-footer"> {{$ulasan->ulasan_nama_mhs}}, <cite title="Source Title">{{$ulasan->Perusahaan->perusahaan_nama}}</cite></footer>
+                      </blockquote>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  @endforeach
+<!-- End of Modal Detail Data-->
 
 @endsection()

@@ -20,11 +20,11 @@ Route::get('/', function () {
 //for ADMIN
 Route::group(['middleware' => 'auth'], function()
 {
-	Route::resource('perusahaan', 'PerusahaanController');
-	Route::resource('jurusan', 'JurusanController');
-	Route::resource('berita', 'BeritaController');
-	Route::resource('ulasan', 'UlasanController');
 	Route::resource('dashboard', 'DashboardController');
+	Route::resource('jurusan', 'JurusanController');
+	Route::resource('perusahaan', 'PerusahaanController');
+	Route::resource('ulasan', 'UlasanController');
+	Route::resource('berita', 'BeritaController');
 
 	Route::get('export_jurusan', 'JurusanController@export_excel');
 	Route::get('export_perusahaan', 'PerusahaanController@export_excel');

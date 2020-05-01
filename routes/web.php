@@ -33,10 +33,10 @@ Route::group(['middleware' => 'auth'], function()
 });
 
 //for GUEST & API
-Route::resource('jurusan', 'JurusanController', ['only' => ['index','show']]);
-Route::resource('perusahaan', 'PerusahaanController', ['only' => ['index','show']]);
-Route::resource('berita', 'BeritaController', ['only' => ['index','show']]);
-Route::resource('ulasan', 'UlasanController', ['only' => ['index','show']]);
+Route::resource('i117v0jurx1usn1', 'JurusanController', ['only' => ['index','show']]);
+Route::resource('i117v0perx2ushn2', 'PerusahaanController', ['only' => ['index','show']]);
+Route::resource('i117v0berx3t3', 'BeritaController', ['only' => ['index','show']]);
+Route::resource('i117v0ulsx4n3', 'UlasanController', ['only' => ['index','show']]);
 
 Auth::routes();
 Route::get('/home', 'DashboardController@index')->name('home');

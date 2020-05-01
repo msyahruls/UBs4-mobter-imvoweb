@@ -17,18 +17,23 @@ class BeritaController extends Controller
      */
     public function index(Request $request)
     {
-         $data = Berita::when($request->search, function($query) use($request){
-            $query->where('berita_judul', 'LIKE', '%'.$request->search.'%');})
-            ->orderBy('berita_id','asc')
-            ->paginate(10);
-
-            if (Auth::user())
+        if (Auth::user())
         {
+            $data = Berita::when($request->search, function($query) use($request){
+            $query->where('berita_judul', 'LIKE', '%'.$request->search.'%')
+                  ->orWhere('berita_link', 'LIKE', '%'.$request->search.'%');
+            })
+            ->orderBy('berita_id','asc')->paginate(10);
             return view('berita.index',compact('data'))
                 ->with('i', (request()->input('page', 1) - 1) * 10);
         }
         else
         {
+            $data = Berita::when($request->search, function($query) use($request){
+            $query->where('berita_judul', 'LIKE', '%'.$request->search.'%')
+                  ->orWhere('berita_link', 'LIKE', '%'.$request->search.'%');
+            })
+            ->orderBy('berita_id','asc')->get();
             return response()->json($data);
         }
     }

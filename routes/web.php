@@ -20,11 +20,11 @@ Route::get('/', function () {
 //for ADMIN
 Route::group(['middleware' => 'auth'], function()
 {
-	Route::resource('perusahaan', 'PerusahaanController');
-	Route::resource('jurusan', 'JurusanController');
-	Route::resource('berita', 'BeritaController');
-	Route::resource('ulasan', 'UlasanController');
 	Route::resource('dashboard', 'DashboardController');
+	Route::resource('jurusan', 'JurusanController');
+	Route::resource('perusahaan', 'PerusahaanController');
+	Route::resource('ulasan', 'UlasanController');
+	Route::resource('berita', 'BeritaController');
 
 	Route::get('export_jurusan', 'JurusanController@export_excel');
 	Route::get('export_perusahaan', 'PerusahaanController@export_excel');
@@ -33,10 +33,10 @@ Route::group(['middleware' => 'auth'], function()
 });
 
 //for GUEST & API
-Route::resource('i117v0jurx1usn1', 'JurusanController', ['only' => ['index','show']]);
-Route::resource('i117v0perx2ushn2', 'PerusahaanController', ['only' => ['index','show']]);
-Route::resource('i117v0berx3t3', 'BeritaController', ['only' => ['index','show']]);
-Route::resource('i117v0ulsx4n3', 'UlasanController', ['only' => ['index','show']]);
+Route::resource('jurusan', 'JurusanController', ['only' => ['index','show']]);
+Route::resource('perusahaan', 'PerusahaanController', ['only' => ['index','show']]);
+Route::resource('berita', 'BeritaController', ['only' => ['index','show']]);
+Route::resource('ulasan', 'UlasanController', ['only' => ['index','show']]);
 
 Auth::routes();
 Route::get('/home', 'DashboardController@index')->name('home');

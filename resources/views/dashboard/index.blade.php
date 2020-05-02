@@ -94,48 +94,54 @@
         </div>
         <div class="card-body">
           <div class="row">
-            @foreach($data as $perusahaan)
-            <div class="col-md-6">
-              <div class="card mb-3 shadow bg-white rounded" style="max-width: 540px; background-color: #f2f2f2; max-height: 200px;">
-                <div class="row no-gutters">
-                  <div class="col-md-4">
-                    <img src="{{ url('/images/perusahaan/'.$perusahaan->perusahaan_logo) }}" width="150" max-height="180">
-                    <center>
-                      <span style="margin-top: 15px;">{{$perusahaan->perusahaan_email}}</span>
-                    </center>
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title">
-                        {{$perusahaan->perusahaan_nama}} 
-                      </h5>
-                      <br>
-                      <div style="margin-top: -38px;">
-                        {{$perusahaan->perusahaan_alamat}}
-                      </div>
-                      <br>
-                      <style type="text/css">
-                        div.scrolllabe{
-                          background-color: none; 
-                          width: 280px; 
-                          height: 120px;  
-                          overflow-x: auto;
-                          margin-top: -10px;
-                        }
-                      </style>
-                      <div class="scrolllabe">
-                        @foreach($perusahaan->jurusan as $jrsn)
-                          <span style="background-color: #003961; margin-top: 5px;" class="badge badge-info">
-                            {{ $jrsn->jurusan_nama}}
-                          </span>
-                        @endforeach
+            @if(!$data->isEmpty())
+              @foreach($data as $perusahaan)
+              <div class="col-md-6">
+                <div class="card mb-3 shadow bg-white rounded" style="max-width: 540px; background-color: #f2f2f2; max-height: 200px;">
+                  <div class="row no-gutters">
+                    <div class="col-md-4">
+                      <img src="{{ url('/images/perusahaan/'.$perusahaan->perusahaan_logo) }}" width="150" max-height="180">
+                      <center>
+                        <span style="margin-top: 15px;">{{$perusahaan->perusahaan_email}}</span>
+                      </center>
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          {{$perusahaan->perusahaan_nama}} 
+                        </h5>
+                        <br>
+                        <div style="margin-top: -38px;">
+                          {{$perusahaan->perusahaan_alamat}}
+                        </div>
+                        <br>
+                        <style type="text/css">
+                          div.scrolllabe{
+                            background-color: none; 
+                            width: 280px; 
+                            height: 120px;  
+                            overflow-x: auto;
+                            margin-top: -10px;
+                          }
+                        </style>
+                        <div class="scrolllabe">
+                          @foreach($perusahaan->jurusan as $jrsn)
+                            <span style="background-color: #003961; margin-top: 5px;" class="badge badge-info">
+                              {{ $jrsn->jurusan_nama}}
+                            </span>
+                          @endforeach
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            @endforeach
+              @endforeach
+            @else
+              <div class="col-md-12">
+                <center>Data tidak ditemukan</center>
+              </div>
+            @endif
           </div>
           {!! $data->links() !!}
         </div>

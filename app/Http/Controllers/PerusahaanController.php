@@ -22,27 +22,36 @@ class PerusahaanController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Perusahaan::whereHas('jurusan', function ($query) use ($request)
-        {
-          $query->where('perusahaan_id', 'LIKE', "%{$request->search}%")
-                ->orWhere('perusahaan_nama', 'LIKE', "%{$request->search}%")
-                ->orWhere('perusahaan_alamat', 'LIKE', "%{$request->search}%")
-                ->orWhere('perusahaan_email', 'LIKE', "%{$request->search}%")
-                ->orWhere('jurusan_nama', 'LIKE', "%{$request->search}%")
-                ->orWhere('perusahaan_telepon', 'LIKE', "%{$request->search}%");
-        })
-        ->with('jurusan')
-        ->orderBy('perusahaan_id', 'desc')->paginate(10);
-
         $jurusanData = Jurusan::orderBy('jurusan_nama')->get();
         
         if (Auth::user())
         {
+            $data = Perusahaan::whereHas('jurusan', function ($query) use ($request)
+            {
+              $query->where('perusahaan_id', 'LIKE', "%{$request->search}%")
+                    ->orWhere('perusahaan_nama', 'LIKE', "%{$request->search}%")
+                    ->orWhere('perusahaan_alamat', 'LIKE', "%{$request->search}%")
+                    ->orWhere('perusahaan_email', 'LIKE', "%{$request->search}%")
+                    ->orWhere('jurusan_nama', 'LIKE', "%{$request->search}%")
+                    ->orWhere('perusahaan_telepon', 'LIKE', "%{$request->search}%");
+            })
+            ->with('jurusan')->orderBy('perusahaan_id', 'desc')->paginate(10);
             return view('perusahaan.index',compact('data','jurusanData'))
                 ->with('i', (request()->input('page', 1) - 1) * 10);
         }
         else
         {
+            $data = Perusahaan::whereHas('jurusan', function ($query) use ($request)
+            {
+              $query->where('perusahaan_id', 'LIKE', "%{$request->search}%")
+                    ->orWhere('perusahaan_nama', 'LIKE', "%{$request->search}%")
+                    ->orWhere('perusahaan_alamat', 'LIKE', "%{$request->search}%")
+                    ->orWhere('perusahaan_email', 'LIKE', "%{$request->search}%")
+                    ->orWhere('jurusan_nama', 'LIKE', "%{$request->search}%")
+                    ->orWhere('perusahaan_telepon', 'LIKE', "%{$request->search}%");
+            })
+            ->with('jurusan')
+            ->orderBy('perusahaan_id', 'desc')->get();
             return response()->json($data);
         }
     }
@@ -105,7 +114,7 @@ class PerusahaanController extends Controller
         $perusahaan->save();
 
         $perusahaan->jurusan()->sync($request->jurusan, false);
-
+        
         if (Auth::user())
         {
             return redirect()->route('perusahaan.index')
@@ -126,7 +135,7 @@ class PerusahaanController extends Controller
     public function show(Perusahaan $perusahaan)
     {
         $data = Perusahaan::with('jurusan')
-            ->where('perusahaan_id', $perusahaan->perusahaan_id)->get();
+            ->findOrFail($perusahaan->perusahaan_id);
         return response()->json($data);
     }
 
@@ -140,9 +149,9 @@ class PerusahaanController extends Controller
     {
         // $data = Perusahaan::with('jurusan')
         //     ->where('perusahaan_id', $perusahaan->perusahaan_id)->get();
+        // return response()->json($data);
         $data = Jurusan::all();
         return view('perusahaan.edit',compact('perusahaan','data'));
-        // return response()->json($data);
     }
 
     /**

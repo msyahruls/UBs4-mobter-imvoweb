@@ -93,7 +93,7 @@ class UlasanController extends Controller
      */
     public function show(Ulasan $ulasan)
     {
-        $data = Ulasan::with('jurusan')
+        $data = Ulasan::with('Jurusan')->with('Perusahaan')
             ->findOrFail($ulasan->ulasan_id);
         return response()->json($data);
     }

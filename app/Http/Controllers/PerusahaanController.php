@@ -50,7 +50,7 @@ class PerusahaanController extends Controller
                     ->orWhere('jurusan_nama', 'LIKE', "%{$request->search}%")
                     ->orWhere('perusahaan_telepon', 'LIKE', "%{$request->search}%");
             })
-            ->with('jurusan')
+            ->with('jurusan')->with('ulasan')
             ->orderBy('perusahaan_id', 'desc')->get();
             return response()->json($data);
         }
@@ -134,7 +134,7 @@ class PerusahaanController extends Controller
      */
     public function show(Perusahaan $perusahaan)
     {
-        $data = Perusahaan::with('jurusan')
+        $data = Perusahaan::with('jurusan')->with('ulasan')
             ->findOrFail($perusahaan->perusahaan_id);
         return response()->json($data);
     }

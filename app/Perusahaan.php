@@ -15,7 +15,7 @@ class Perusahaan extends Model
     	return $this->belongsToMany('App\Jurusan','jurusan_perusahaan','jp_perusahaan','jp_jurusan');
     }
 
-    public function jurusanOTM()
+    public function ulasan()
     { 
       	return $this->hasMany('App\Ulasan','ulasan_jurusan_id','perusahaan_id'); 
 	}

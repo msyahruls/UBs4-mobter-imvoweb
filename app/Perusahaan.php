@@ -17,6 +17,6 @@ class Perusahaan extends Model
 
     public function ulasan()
     { 
-      	return $this->hasMany('App\Ulasan','ulasan_jurusan_id','perusahaan_id'); 
+      	return $this->hasMany('App\Ulasan','ulasan_perusahaan_id','perusahaan_id'); 
 	}
 }

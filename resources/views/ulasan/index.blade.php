@@ -194,7 +194,7 @@
               </label>
               <select class="form-control" name="ulasan_perusahaan_id">
                 @foreach( $perusahaan as $jrs)
-                  <option value="{{ $jrs->perusahaan_id }}" {{ $jrs->perusahaan_id == $ulasan->ulasan_perusahan_id ? 'selected="selected"' : '' }}> {{ $jrs->perusahaan_nama }} </option>
+                  <option value="{{ $jrs->perusahaan_id }}" {{ $jrs->perusahaan_id == $ulasan->ulasan_perusahaan_id ? 'selected="selected"' : '' }}> {{ $jrs->perusahaan_nama }} </option>
                  @endforeach
               </select> 
 

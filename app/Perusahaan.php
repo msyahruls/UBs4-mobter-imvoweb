@@ -13,6 +13,10 @@ class Perusahaan extends Model
     public function jurusan()
     {
     	return $this->belongsToMany('App\Jurusan','jurusan_perusahaan','jp_perusahaan','jp_jurusan');
-    	// return $this->belongsToMany('App\Jurusan')->withPivot('jp_jurusan', 'jp_perusahaan');
     }
+
+    public function ulasan()
+    { 
+      	return $this->hasMany('App\Ulasan','ulasan_perusahaan_id','perusahaan_id'); 
+	}
 }

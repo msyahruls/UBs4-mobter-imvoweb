@@ -22,26 +22,35 @@ class UlasanController extends Controller
     {
         $jurusan = Jurusan::all();
         $perusahaan = Perusahaan::all();
-        $data = Ulasan::when($request->search, function($query) use($request)
-        {
-          $query->where('ulasan_nama_mhs', 'LIKE', '%'.$request->search.'%')
-                ->orWhere('jurusan_nama', 'LIKE', "%{$request->search}%")
-                ->orWhere('ulasan_angkatan', 'LIKE', "%{$request->search}%")
-                ->orWhere('perusahaan_nama', 'LIKE', "%{$request->search}%")
-                ->orWhere('ulasan_periode', 'LIKE', "%{$request->search}%");
-        })
-        ->join('Jurusan', 'Jurusan.jurusan_id', '=', 'Ulasan.ulasan_jurusan_id')
-        ->join('Perusahaan', 'Perusahaan.perusahaan_id', '=', 'Ulasan.ulasan_perusahaan_id')
-        ->orderBy('ulasan_nama_mhs','asc')
-        ->paginate(10);
             
         if (Auth::user())
         {
+            $data = Ulasan::when($request->search, function($query) use($request)
+            {
+              $query->where('ulasan_nama_mhs', 'LIKE', '%'.$request->search.'%')
+                    ->orWhere('jurusan_nama', 'LIKE', "%{$request->search}%")
+                    ->orWhere('ulasan_angkatan', 'LIKE', "%{$request->search}%")
+                    ->orWhere('perusahaan_nama', 'LIKE', "%{$request->search}%")
+                    ->orWhere('ulasan_periode', 'LIKE', "%{$request->search}%");
+            })
+            ->join('jurusan', 'jurusan.jurusan_id', '=', 'ulasan.ulasan_jurusan_id')
+            ->join('perusahaan', 'perusahaan.perusahaan_id', '=', 'ulasan.ulasan_perusahaan_id')
+            ->orderBy('ulasan_nama_mhs','asc')->paginate(10);
             return view('ulasan.index',compact('data','jurusan','perusahaan'))
                 ->with('i', (request()->input('page', 1) - 1) * 10);
         }
         else
         {
+            $data = Ulasan::when($request->search, function($query) use($request)
+            {
+              $query->where('ulasan_nama_mhs', 'LIKE', '%'.$request->search.'%')
+                    ->orWhere('jurusan_nama', 'LIKE', "%{$request->search}%")
+                    ->orWhere('ulasan_angkatan', 'LIKE', "%{$request->search}%")
+                    ->orWhere('perusahaan_nama', 'LIKE', "%{$request->search}%")
+                    ->orWhere('ulasan_periode', 'LIKE', "%{$request->search}%");
+            })
+            ->with('jurusan')->with('perusahaan')
+            ->orderBy('ulasan_nama_mhs','asc')->get();
             return response()->json($data);
         }
     }
@@ -84,8 +93,8 @@ class UlasanController extends Controller
      */
     public function show(Ulasan $ulasan)
     {
-        $data = Ulasan::with('jurusan')
-            ->where('ulasan_id', $ulasan->ulasan_id)->get();
+        $data = Ulasan::with('jurusan')->with('perusahaan')
+            ->findOrFail($ulasan->ulasan_id);
         return response()->json($data);
     }
 

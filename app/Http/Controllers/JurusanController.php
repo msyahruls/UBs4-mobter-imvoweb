@@ -19,7 +19,6 @@ class JurusanController extends Controller
      */
     public function index(Request $request)
     {
-            
         if (Auth::user())
         {
             $data = Jurusan::when($request->search, function($query) use($request){
@@ -35,7 +34,6 @@ class JurusanController extends Controller
                 $query->where('jurusan_nama', 'LIKE', '%'.$request->search.'%');})
                 ->orderBy('jurusan_nama','asc')
                 ->with('perusahaan')->get();
-            // return response()->json(array('result' => $data));
             return response()->json($data);
         }
     }
@@ -74,7 +72,7 @@ class JurusanController extends Controller
     public function show(Jurusan $jurusan)
     {
         $data = Jurusan::with('perusahaan')
-            ->find($jurusan->jurusan_id);
+            ->findOrFail($jurusan->jurusan_id);
         return response()->json($data);
     }
 

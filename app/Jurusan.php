@@ -13,6 +13,10 @@ class Jurusan extends Model
     public function perusahaan()
     {
     	return $this->belongsToMany('App\Perusahaan','jurusan_perusahaan','jp_jurusan','jp_perusahaan');
-    	// return $this->belongsToMany('App\Perusahaan')->withPivot('jp_jurusan', 'jp_perusahaan');
     }
+
+    public function ulasan()
+    { 
+      	return $this->hasMany('App\Ulasan','ulasan_jurusan_id','jurusan_id'); 
+	}
 }

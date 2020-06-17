@@ -1,2 +1,2 @@
 # UBs4-mobter-imvoweb
- This is Api and Web for IMVO using Laravel
+Web Management and API for IMVO using Laravel

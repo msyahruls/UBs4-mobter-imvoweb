@@ -45,36 +45,40 @@
           <a class="btn btn-success" href="export_jurusan"><i class="fa fa-print"></i> Export Data</a>
         </div>
         <div class="card-body">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nama</th>
-                <th scope="col"><center>Jumlah Perusahaan</center></th>
-                <th scope="col"><center>Action</center></th>
-              </tr>
-            </thead>
-            <tbody id="jurusans-list" name="jurusans-list">
-              @forelse($data as $jurusan)
-              <tr>
-                <td width="5%" align="center">{{ ++$i }}</td>
-                <td>{{ $jurusan->jurusan_nama }}</td>
-                <td width="20%" align="center">{{ $jurusan->perusahaan->count() }}</td>
-                <td width="15%" align="center">
-                  <div class="btn-group">
-                    <button class="btn btn-sm btn-warning view_modal color" data-toggle="modal" data-target="#editData{{$jurusan->jurusan_id}}"><i class="fas fa-pen"></i></button>
-                    <a class="btn btn-sm btn-info color open_modal" href="{{ route('jurusan.show', $jurusan->jurusan_id) }}"><i class="fas fa-eye"></i></a>
-                    <button class="btn btn-sm btn-danger view_modal color" data-toggle="modal" data-target="#deleteData{{$jurusan->jurusan_id}}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                  </div>   
-                </td>
-              </tr>
-              @empty
-              <tr>
-                <td colspan="3"><center>Data kosong</center></td>
-              </tr>
-              @endforelse
-            </tbody>
-          </table>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Nama</th>
+                  <th scope="col"><center>Jumlah Perusahaan</center></th>
+                  <th scope="col"><center>Action</center></th>
+                </tr>
+              </thead>
+              <tbody id="jurusans-list" name="jurusans-list">
+                @forelse($data as $jurusan)
+                <tr>
+                  <td width="5%" align="center">{{ ++$i }}</td>
+                  <td>{{ $jurusan->jurusan_nama }}</td>
+                  <td width="20%" align="center">{{ $jurusan->perusahaan->count() }}</td>
+                  <td width="15%" align="center">
+                    <div class="btn-group">
+                      <button class="btn btn-sm btn-warning view_modal color" data-toggle="modal" data-target="#editData{{$jurusan->jurusan_id}}"><i class="fas fa-pen"></i></button>
+                      <a class="btn btn-sm btn-secondary color open_modal" style="background-color: #c0c0c0; border-color: #c0c0c0;" href="{{ route('jurusan.show', $jurusan->jurusan_id) }}">
+                        <i class="fas fa-list"></i>
+                      </a>
+                      <button class="btn btn-sm btn-danger view_modal color" data-toggle="modal" data-target="#deleteData{{$jurusan->jurusan_id}}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                    </div>   
+                  </td>
+                </tr>
+                @empty
+                <tr>
+                  <td colspan="4"><center>Data kosong</center></td>
+                </tr>
+                @endforelse
+              </tbody>
+            </table>
+          </div>
         </div>
         <div class="card-footer text-right">
           <nav class="d-inline-block">

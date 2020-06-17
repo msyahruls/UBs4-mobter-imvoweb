@@ -73,7 +73,7 @@
                 </tr>
                 @empty
                 <tr>
-                  <td colspan="3"><center>Data kosong</center></td>
+                  <td colspan="5"><center>Data kosong</center></td>
                 </tr>
                 @endforelse
               </tbody>
